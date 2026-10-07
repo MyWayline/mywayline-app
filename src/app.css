@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+
+:root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@theme {
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f5f3f0;
+
+    --color-primary: #59c63f;
+    --color-primary-foreground: #1b1b28;
+
+    --color-secondary: #e2e8f0;
+    --color-secondary-foreground: #1b1b28;
+
+    /* Vollständige HSL-Angabe mit hsl() */
+    --color-accent: hsl(262.1, 83.3%, 57.8%);
+    --color-accent-foreground: #1b1b28;
+
+    --color-destructive: hsl(0, 84.2%, 60.2%);
+    --color-destructive-foreground: hsl(210, 40%, 98%);
+
+    /* Hier lag der Fehler: Ohne hsl() Wrapper hat Tailwind v4 Probleme beim Rendern der Borders */
+    --color-muted: hsl(210, 40%, 96.1%);
+    --color-muted-foreground: hsl(215.4, 16.3%, 46.9%);
+
+    --radius-*: initial;
+    --radius-sm: 0.25rem;
+    --radius-lg: 0.5rem;
+}
+
+:root {
+    --app-bg: var(--color-bg-primary);
+}
+
+html:has([data-page-bg='secondary']) {
+    --app-bg: var(--color-bg-secondary);
+}
+
+html,
+body {
+    background: var(--app-bg);
+    transition: background-color 200ms;
+}
