@@ -1,10 +1,11 @@
 <script lang="ts">
     import { Button } from '#lib';
-    import { setSelectedDate } from './Calendar.svelte';
+    import { getCalendarMode, getSelectedDate, setSelectedDate } from './Calendar.svelte';
     import { getDate } from 'date-fns';
     import { ChevronDown, ChevronLeft, ChevronRight, Funnel } from '@lucide/svelte';
     import DateSelector from '../misc/DateSelector.svelte';
-    import * as BottomSheet from 'svelte-bottom-sheet';
+    import NormalBottomSheet from '#lib/ui/components/BottomSheet/NormalBottomSheet.svelte';
+    import { formatMonthYearIfNotCurrentYear } from '#lib/utils/TimeDateUtils.ts';
     let isSelectSheetOpen = $state(false);
 
     const ondateselect = (selectedDate: Date) => {
@@ -13,22 +14,19 @@
     };
 </script>
 
-<div class="flex items-center justify-between">
+<div class="flex items-center justify-between px-2 h-12.5">
     <Button.Root
         variant="ghost"
         aria-haspopup="dialog"
+        class="flex gap-2"
         onclick={() => (isSelectSheetOpen = !isSelectSheetOpen)}
     >
+        <span class="text-lg">{formatMonthYearIfNotCurrentYear(getSelectedDate())}</span>
         <ChevronDown size={18} class="text-muted-foreground" />
     </Button.Root>
-    <BottomSheet.Root bind:isSheetOpen={isSelectSheetOpen}>
-        <BottomSheet.Sheet>
-            <BottomSheet.Handle />
-            <BottomSheet.Content class="flex flex-col items-center w-full">
-                <DateSelector mode={'week'} onselect={ondateselect} />
-            </BottomSheet.Content>
-        </BottomSheet.Sheet>
-    </BottomSheet.Root>
+    <NormalBottomSheet bind:isOpen={isSelectSheetOpen} fitContent>
+        <DateSelector mode={getCalendarMode()} onselect={ondateselect} />
+    </NormalBottomSheet>
 
     <div class="flex items-center gap-1">
         <Button.Root

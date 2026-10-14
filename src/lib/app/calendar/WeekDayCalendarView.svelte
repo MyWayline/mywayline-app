@@ -149,7 +149,7 @@
     <div class="col-start-1">
         <div
             class="sticky top-0 z-30 bg-bg-primary {heightAnim}"
-            style:height="calc(var(--header-h) + {allDayH}px)"
+            style:height="calc(var(--header-h) + {allDayH}px )"
         ></div>
         <CalendarColumnTimeSidebar />
     </div>
@@ -162,7 +162,7 @@
                 <div class="flex flex-col">
                     <!-- Sticky Date Header -->
                     <div
-                        class="sticky top-0 z-20 flex h-(--header-h) border-b border-muted bg-bg-primary"
+                        class="sticky top-[50px] z-20 flex h-(--header-h) border-b border-muted bg-bg-primary"
                     >
                         {#each currentPage.days as day, i (day.date.getTime())}
                             <div
@@ -198,8 +198,9 @@
 
                     <!-- Sticky WholeDay Events/Tasks Bar -->
                     <div
-                        class="sticky top-(--header-h) z-10 overflow-hidden border-b border-muted bg-bg-primary cursor-pointer select-none shadow-md {heightAnim}"
+                        class="sticky z-10 overflow-hidden border-b border-muted bg-bg-primary cursor-pointer select-none shadow-md {heightAnim}"
                         style:height="{allDayH}px"
+                        style:top="calc(var(--header-h) + 50px)"
                         role="button"
                         tabindex="0"
                         aria-expanded={expandAllDayItems}

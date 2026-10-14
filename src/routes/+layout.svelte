@@ -5,7 +5,7 @@
 </script>
 
 <div
-    class="fixed inset-x-0 top-(--safe-top) bottom-(--safe-bottom) overflow-y-auto overscroll-contain"
+    class="fixed inset-x-0 top-(--safe-top) bottom-(--safe-bottom) overflow-y-auto overflow-x-hidden overscroll-contain"
 >
     {@render children()}
 </div>

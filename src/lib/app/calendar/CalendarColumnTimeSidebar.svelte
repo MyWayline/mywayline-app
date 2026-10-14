@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatHour, type HourFormat } from '#lib/utils/TimeUtils.ts';
+    import { formatHour, type HourFormat } from '#lib/utils/TimeDateUtils.ts';
 
     let {
         hourGapPx = 80,

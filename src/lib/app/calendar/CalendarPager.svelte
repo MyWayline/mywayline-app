@@ -107,4 +107,3 @@
         <div class="h-full w-1/3 min-w-0">{@render page(1)}</div>
     </div>
 </div>
-```

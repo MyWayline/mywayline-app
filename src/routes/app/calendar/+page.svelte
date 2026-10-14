@@ -416,16 +416,17 @@
         calculator.layoutWeek(weekStart, items);
 </script>
 
-<div class="bg-bg-primary flex flex-col gap-4">
-    <div class="sticky z-50">
+<div class="bg-bg-primary flex min-h-0 w-full flex-col">
+    <div class="sticky top-0 z-50 shrink-0 bg-bg-primary">
         <CalendarHeader />
     </div>
+
     {#if getCalendarMode() === 'month'}
-        <div class="h-full" in:fade={{ duration: 200 }}>
+        <div class="min-w-0" in:fade={{ duration: 200 }}>
             <CalendarMonthView />
         </div>
     {:else}
-        <div class="relative" in:fade={{ duration: 200 }}>
+        <div class="relative min-w-0" in:fade={{ duration: 200 }}>
             <WeekDayCalendarView getWeeks={(startOfWeek) => getWeekLayout(startOfWeek)} />
         </div>
     {/if}
