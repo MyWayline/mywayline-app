@@ -26,6 +26,10 @@ export const registerSchema = z
                 'Password must contain at least one special character'
             ),
         confirmPassword: z.string(),
+        username: z
+            .string()
+            .min(4, 'Username must be at least 8 characters long')
+            .max(24, "Username can't be longer than 24 characters."),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords do not match',

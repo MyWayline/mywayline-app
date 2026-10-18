@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { MoveLeft } from '@lucide/svelte';
+    import { MoveLeft, CircleAlert } from '@lucide/svelte';
     import { Button } from '#lib';
     import { Tabs } from '#lib';
     import { Input } from '#lib';
@@ -11,10 +11,16 @@
         type LoginInput,
         type RegisterInput,
     } from '#lib/schemas/auth.js';
+    import { api } from '#lib/api/api.ts';
+    import { userStore } from '#lib/stores/userStore.svelte.ts';
 
     let { data }: { data: PageData } = $props();
 
     let currentTab = $derived(data.action);
+    let isSubmitting = $state(false);
+
+    let loginSubmitError = $state<string | null>(null);
+    let registerSubmitError = $state<string | null>(null);
 
     let loginValues = $state<LoginInput>({ email: '', password: '' });
     let loginTouched = $state<Partial<Record<keyof LoginInput, boolean>>>({});
@@ -23,6 +29,7 @@
         email: '',
         password: '',
         confirmPassword: '',
+        username: '',
     });
     let registerTouched = $state<Partial<Record<keyof RegisterInput, boolean>>>({});
 
@@ -69,18 +76,62 @@
         registerTouched[field] = true;
     };
 
-    const handleLoginSubmit = (e: Event) => {
+    const handleLoginSubmit = async (e: Event) => {
         e.preventDefault();
+        loginSubmitError = null;
+        isSubmitting = true;
+
         if (loginValidation.success) {
-            // Login to rust backend
+            let res = await api.auth.login({ body: loginValues });
+            if (!res.success) {
+                loginSubmitError = res.error?.message || 'Unknown error. Try again';
+                isSubmitting = false;
+                return;
+            }
+
+            const refreshToken = res.data.refreshToken;
+            const accessToken = res.data.accessToken;
+
+            if (refreshToken && accessToken) {
+                userStore.setSession(accessToken, refreshToken);
+                goto('/app/home', { replace: true });
+            }
         }
+        isSubmitting = false;
     };
 
-    const handleRegisterSubmit = (e: Event) => {
+    const handleRegisterSubmit = async (e: Event) => {
         e.preventDefault();
+        registerSubmitError = null;
+        isSubmitting = true;
+
         if (registerValidation.success) {
-            // Register to rust backend
+            let res = await api.auth.register({
+                body: {
+                    password: registerValues.password,
+                    email: registerValues.email,
+                    username: registerValues.username,
+                },
+            });
+
+            if (!res.success) {
+                // Server-Fehlermeldung abfangen mit Fallback
+                registerSubmitError =
+                    res.error?.message || "Couldn't register you. Please try again.";
+                isSubmitting = false;
+                return;
+            }
+
+            const refreshToken = res.data.refreshToken;
+            const accessToken = res.data.accessToken;
+
+            if (refreshToken && accessToken) {
+                userStore.setSession(accessToken, refreshToken);
+                goto('/app/home', { replace: true });
+            }
         }
+
+        isSubmitting = false;
     };
 </script>
 
@@ -89,7 +140,7 @@
         {#snippet child({ props })}
             <button
                 class="group absolute -top-32.5 -left-30 h-65 w-65 rounded-full bg-bg-primary"
-                onclick={() => goto('/auth')}
+                onclick={() => goto('/auth', { replaceState: true })}
             >
                 <div
                     class="absolute bottom-12.5 right-17.5 transition-[transform,background] duration-250 ease-out group-hover:-translate-x-1 group-active:scale-90"
@@ -120,6 +171,15 @@
                 <!-- LOGIN TAB -->
                 <Tabs.Content value="login">
                     <form class="flex flex-col gap-6" onsubmit={handleLoginSubmit}>
+                        {#if loginSubmitError}
+                            <div
+                                class="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm animate-fadeIn"
+                            >
+                                <CircleAlert size={18} class="shrink-0" />
+                                <span>{loginSubmitError}</span>
+                            </div>
+                        {/if}
+
                         <Input.Styled
                             variant="authinput"
                             type="email"
@@ -147,6 +207,7 @@
                         />
 
                         <Button.Root
+                            isLoading={isSubmitting}
                             class="mt-2"
                             style="height: 50px"
                             type="submit"
@@ -160,6 +221,15 @@
                 <!-- REGISTER TAB -->
                 <Tabs.Content value="register">
                     <form class="flex flex-col gap-6" onsubmit={handleRegisterSubmit}>
+                        {#if registerSubmitError}
+                            <div
+                                class="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm animate-fadeIn"
+                            >
+                                <CircleAlert size={18} class="shrink-0" />
+                                <span>{registerSubmitError}</span>
+                            </div>
+                        {/if}
+
                         <Input.Styled
                             variant="authinput"
                             id="email"
@@ -171,6 +241,19 @@
                             error={registerErrors.email}
                             onblur={() => handleRegisterBlur('email')}
                             bind:value={registerValues.email}
+                            required
+                        />
+
+                        <Input.Styled
+                            variant="authinput"
+                            id="username"
+                            name="username"
+                            label="Username"
+                            type="text"
+                            placeholder="Username"
+                            error={registerErrors.username}
+                            onblur={() => handleRegisterBlur('username')}
+                            bind:value={registerValues.username}
                             required
                         />
 
@@ -205,6 +288,7 @@
                         />
 
                         <Button.Root
+                            isLoading={isSubmitting}
                             class="mt-2"
                             style="height: 50px"
                             type="submit"

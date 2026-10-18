@@ -22,17 +22,14 @@
 
     const wrapperVariants = {
         authinput:
-            'h-[50px] border border-neutral-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-950 focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent',
-        normal: 'h-[56px] border-b-2 border-neutral-200 dark:border-neutral-800 bg-transparent rounded-none focus-within:border-primary transition-colors',
+            'h-[50px] border border-neutral-300  rounded-lg bg-white focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent',
+        normal: 'h-[56px] border-b-2 border-neutral-200 bg-transparent rounded-none focus-within:border-primary transition-colors',
     };
 </script>
 
 <div class="flex w-full flex-col gap-2">
     {#if label && label.trim().length > 0}
-        <label
-            for={id}
-            class="text-sm font-medium text-neutral-700 dark:text-neutral-300"
-        >
+        <label for={id} class="text-sm font-medium text-neutral-700">
             {label}
         </label>
     {/if}
@@ -53,7 +50,7 @@
                     {...props}
                     type={inputType}
                     class={cn(
-                        'h-full w-full flex-1 border-none bg-transparent p-0 text-sm font-normal text-neutral-900 outline-none placeholder:text-neutral-400 focus:ring-0 dark:text-white',
+                        'h-full w-full flex-1 border-none bg-transparent p-0 text-sm font-normal text-neutral-900 outline-none placeholder:text-neutral-400 focus:ring-0',
                         props.class as string
                     )}
                 />

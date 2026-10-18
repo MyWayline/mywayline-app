@@ -9,6 +9,7 @@
     import type { ICalEvent, ICalItem, ICalTask } from '#lib/types/Calendar.ts';
     import type { WeekLayout } from '#lib/types/CalendarCalculations.ts';
     import { CalendarLayoutCalculator } from '#lib/utils/CalendarCalculation.ts';
+    import { goto } from '$app/navigation';
     import { fade } from 'svelte/transition';
 
     setCalendarMode('week');

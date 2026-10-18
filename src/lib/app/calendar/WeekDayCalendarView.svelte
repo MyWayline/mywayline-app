@@ -162,7 +162,7 @@
                 <div class="flex flex-col">
                     <!-- Sticky Date Header -->
                     <div
-                        class="sticky top-[50px] z-20 flex h-(--header-h) border-b border-muted bg-bg-primary"
+                        class="sticky top-12.5 z-20 flex h-(--header-h) border-b border-muted bg-bg-primary"
                     >
                         {#each currentPage.days as day, i (day.date.getTime())}
                             <div
