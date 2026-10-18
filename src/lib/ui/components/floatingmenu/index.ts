@@ -21,5 +21,5 @@ export interface FloatingMenuContentProps extends HTMLAttributes<HTMLDivElement>
     padding?: number;
     ref?: HTMLElement;
     fitViewport?: boolean;
-    content?: Snippet<[{ props: Record<string, any> }]>;
+    content?: Snippet<[{ props: Record<string, unknown> }]>;
 }

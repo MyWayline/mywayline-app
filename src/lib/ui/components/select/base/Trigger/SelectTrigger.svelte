@@ -12,7 +12,7 @@
         ...rest
     }: {
         children?: Snippet<[]>;
-        child?: Snippet<[{ props: Record<string, any> }]>;
+        child?: Snippet<[{ props: Record<string, unknown> }]>;
         disabled?: boolean;
     } & HTMLButtonAttributes = $props();
 

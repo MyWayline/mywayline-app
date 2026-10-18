@@ -17,7 +17,7 @@
         value: string;
         ref?: HTMLButtonElement;
         disabled?: boolean;
-        child?: Snippet<[{ props: Record<string, any> }]>;
+        child?: Snippet<[{ props: Record<string, unknown> }]>;
         children?: Snippet<[]>;
     } & HTMLButtonAttributes = $props();
 

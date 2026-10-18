@@ -12,7 +12,7 @@
         navigateDate,
         setCalendarMode,
         setSelectedDate,
-    } from './Calendar.svelte';
+    } from '#lib/stores/calendarStore.svelte.ts';
     import { addDays, addWeeks, startOfWeek } from 'date-fns/fp';
     import { de } from 'date-fns/locale';
     import { slide } from 'svelte/transition';
@@ -23,7 +23,13 @@
         WeekLayout,
     } from '#lib/types/CalendarCalculations.ts';
 
-    let { getWeeks }: { getWeeks: (weekStartDay: Date) => WeekLayout } = $props();
+    let {
+        getWeeks,
+        topOffset = 0,
+    }: {
+        getWeeks: (weekStartDay: Date) => WeekLayout;
+        topOffset?: number;
+    } = $props();
 
     type Page = { days: DayLayout[]; allDay: AllDayLayout; focus: number | null };
 
@@ -33,11 +39,12 @@
     const weekStart = $derived(getWeekStart(getSelectedDate()));
     let expandAllDayItems = $state(false);
 
-    // Natural content height of each page all-day row
+    // Each pager page measures its natural all-day content height. Only the
+    // visible page controls the shared row height.
     let allDayHeights = $state<number[]>([]);
-    // Only the visible (middle) page decides the height. It is applied to all
-    // three pages and the sidebar spacer, so they stay aligned while swiping.
-    const allDayH = $derived((allDayHeights[1] || 54) + 1);
+    const MIN_ALL_DAY_HEIGHT = 40;
+    const allDayH = $derived(allDayHeights[1] ?? MIN_ALL_DAY_HEIGHT);
+    let dateHeaderHeight = $state(0);
 
     const pages = $derived.by((): Page[] => {
         const weeks = [-1, 0, 1].map((w) => getWeeks(addWeeks(w, weekStart)));
@@ -142,14 +149,12 @@
         page.days.map((_, i) => `minmax(0, ${grow(page.focus, i)}fr)`).join(' ');
 </script>
 
-<div
-    class="relative grid w-full min-w-0 grid-cols-[max-content_minmax(0,1fr)]"
-    style="--header-h: 52px;"
->
+<div class="relative grid w-full min-w-0 grid-cols-[max-content_minmax(0,1fr)]">
     <div class="col-start-1">
         <div
-            class="sticky top-0 z-30 bg-bg-primary {heightAnim}"
-            style:height="calc(var(--header-h) + {allDayH}px )"
+            class="sticky z-30 bg-bg-primary {heightAnim}"
+            style:top="{topOffset}px"
+            style:height="{dateHeaderHeight + allDayH}px"
         ></div>
         <CalendarColumnTimeSidebar />
     </div>
@@ -162,7 +167,9 @@
                 <div class="flex flex-col">
                     <!-- Sticky Date Header -->
                     <div
-                        class="sticky top-12.5 z-20 flex h-(--header-h) border-b border-muted bg-bg-primary"
+                        class="sticky z-20 flex h-12.5 border-b border-muted bg-bg-primary"
+                        style:top="{topOffset}px"
+                        bind:clientHeight={dateHeaderHeight}
                     >
                         {#each currentPage.days as day, i (day.date.getTime())}
                             <div
@@ -200,7 +207,7 @@
                     <div
                         class="sticky z-10 overflow-hidden border-b border-muted bg-bg-primary cursor-pointer select-none shadow-md {heightAnim}"
                         style:height="{allDayH}px"
-                        style:top="calc(var(--header-h) + 50px)"
+                        style:top="{topOffset + dateHeaderHeight}px"
                         role="button"
                         tabindex="0"
                         aria-expanded={expandAllDayItems}

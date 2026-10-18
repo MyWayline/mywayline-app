@@ -11,7 +11,7 @@
         ...rest
     }: {
         ref?: HTMLDivElement;
-        child?: Snippet<[{ props: Record<string, any> }]>;
+        child?: Snippet<[{ props: Record<string, unknown> }]>;
         children?: Snippet<[]>;
     } & HTMLAttributes<HTMLDivElement> = $props();
 

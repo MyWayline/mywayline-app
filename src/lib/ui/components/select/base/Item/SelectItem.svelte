@@ -21,7 +21,7 @@
         child?: Snippet<
             [
                 {
-                    props: Record<string, any>;
+                    props: Record<string, unknown>;
                     selected: boolean;
                 },
             ]

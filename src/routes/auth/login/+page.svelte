@@ -93,7 +93,7 @@
             const accessToken = res.data.accessToken;
 
             if (refreshToken && accessToken) {
-                userStore.setSession(accessToken, refreshToken);
+                await userStore.setSession(accessToken, refreshToken);
                 goto('/app/home', { replace: true });
             }
         }
@@ -126,7 +126,7 @@
             const accessToken = res.data.accessToken;
 
             if (refreshToken && accessToken) {
-                userStore.setSession(accessToken, refreshToken);
+                await userStore.setSession(accessToken, refreshToken);
                 goto('/app/home', { replace: true });
             }
         }

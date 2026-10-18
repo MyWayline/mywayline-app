@@ -1,6 +1,7 @@
 import { api } from '#lib/api/api.ts';
-import { setItem, getItem } from 'tauri-plugin-secure-keystore';
-import type { UserInfo } from '#lib/types/User.ts';
+import { setItem, getItem, deleteItem } from 'tauri-plugin-secure-keystore';
+import { type UserInfo } from '#lib/types/User.ts';
+import { goto } from '$app/navigation';
 
 let accessToken: string | null = $state(null);
 let isLoggedIn = $state(false);
@@ -21,8 +22,17 @@ export const userStore = {
     },
     async setSession(newAccessToken: string, refreshToken: string) {
         accessToken = newAccessToken;
-
         await setItem('refresh_token', refreshToken);
+
+        await userStore.init();
+    },
+    async logOut() {
+        await deleteItem('refresh_token');
+        accessToken = null;
+        userData = null;
+        isLoggedIn = false;
+
+        goto('/auth', { replace: true });
     },
     async init() {
         // Tries to get user details on first launch, since we have no accessToken, it tries to refresh in the background.  If that doesn't work,

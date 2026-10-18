@@ -12,7 +12,7 @@ export interface CheckboxProps extends Omit<HTMLButtonAttributes, 'type' | 'chil
     name?: string;
     readonly?: boolean;
     child?: Snippet<
-        [{ props: Record<string, any>; checked: boolean; indeterminate: boolean }]
+        [{ props: Record<string, unknown>; checked: boolean; indeterminate: boolean }]
     >;
     children?: Snippet<[]>;
     ref?: HTMLInputElement;

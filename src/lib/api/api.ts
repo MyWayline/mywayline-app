@@ -1,4 +1,8 @@
-import type { ApiResult } from '#lib/types/ApiTypes.ts';
+import {
+    isApiErrorPayload,
+    type ApiErrorPayload,
+    type ApiResult,
+} from '#lib/types/ApiTypes.ts';
 import {
     loginUser,
     logoutUser,
@@ -18,13 +22,9 @@ const apiCall = async <T>(
         const result = await request();
 
         if (result.error != null) {
-            console.log(result);
-            const error = result.error as {
-                detail?: string;
-                title?: string;
-                message?: string;
-                status?: number;
-            };
+            const error: ApiErrorPayload = isApiErrorPayload(result.error)
+                ? result.error
+                : {};
 
             return {
                 success: false,

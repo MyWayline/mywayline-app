@@ -2,7 +2,7 @@
     import {
         getCalendarMode,
         setCalendarMode,
-    } from '#lib/app/calendar/Calendar.svelte.ts';
+    } from '#lib/stores/calendarStore.svelte.ts';
     import CalendarHeader from '#lib/app/calendar/CalendarHeader.svelte';
     import CalendarMonthView from '#lib/app/calendar/CalendarMonthView.svelte';
     import WeekDayCalendarView from '#lib/app/calendar/WeekDayCalendarView.svelte';
@@ -415,10 +415,15 @@
 
     const getWeekLayout = (weekStart: Date): WeekLayout =>
         calculator.layoutWeek(weekStart, items);
+
+    let calendarHeaderHeight = 0;
 </script>
 
 <div class="bg-bg-primary flex min-h-0 w-full flex-col">
-    <div class="sticky top-0 z-50 shrink-0 bg-bg-primary">
+    <div
+        class="sticky top-0 z-50 shrink-0 bg-bg-primary"
+        bind:clientHeight={calendarHeaderHeight}
+    >
         <CalendarHeader />
     </div>
 
@@ -428,7 +433,10 @@
         </div>
     {:else}
         <div class="relative min-w-0" in:fade={{ duration: 200 }}>
-            <WeekDayCalendarView getWeeks={(startOfWeek) => getWeekLayout(startOfWeek)} />
+            <WeekDayCalendarView
+                getWeeks={(startOfWeek) => getWeekLayout(startOfWeek)}
+                topOffset={calendarHeaderHeight}
+            />
         </div>
     {/if}
 </div>

@@ -8,7 +8,7 @@
         startOfWeek,
     } from 'date-fns';
     import { de } from 'date-fns/locale';
-    import { getSelectedDate, navigateDate } from './Calendar.svelte';
+    import { getSelectedDate, navigateDate } from '#lib/stores/calendarStore.svelte.ts';
     import CalendarPager from './CalendarPager.svelte';
 
     const AXIS_LOCK_PX = 10;

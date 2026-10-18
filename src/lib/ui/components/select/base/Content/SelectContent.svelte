@@ -24,7 +24,7 @@
         ...rest
     }: {
         children?: Snippet<[]>;
-        child?: Snippet<[{ props: Record<string, any> }]>;
+        child?: Snippet<[{ props: Record<string, unknown> }]>;
         ref?: HTMLDivElement;
         ignoreOutsideClick?: boolean;
         ignoreEscape?: boolean;

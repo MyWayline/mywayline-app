@@ -91,7 +91,7 @@
     ontouchend={onTouchFinish}
     ontouchcancel={onTouchFinish}
     role="presentation"
-    class="touch-pan-y overflow-x-clip"
+    class="h-full min-h-0 w-full touch-pan-y overflow-x-clip"
     bind:this={viewport}
 >
     <div

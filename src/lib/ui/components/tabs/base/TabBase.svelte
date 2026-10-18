@@ -18,7 +18,7 @@
         controlled?: boolean;
         onValueChange?: (item: string) => void;
         children?: Snippet<[]>;
-        child?: Snippet<[{ props: Record<string, any> }]>;
+        child?: Snippet<[{ props: Record<string, unknown> }]>;
         ref?: HTMLDivElement;
     } & HTMLAttributes<HTMLDivElement> = $props();
 

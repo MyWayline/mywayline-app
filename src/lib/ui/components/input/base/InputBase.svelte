@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { HTMLInputAttributes } from 'svelte/elements';
     import { mergeProps } from '../../../utils/merge-props';
     import { withRef } from '../../../utils/ref-attachment';
     import type { InputProps } from '..';

@@ -5,7 +5,7 @@
         getMonthsOfYear,
         getWeekDays,
     } from '#lib/utils/CalendarGridUtils.ts';
-    import { getSelectedDate } from '../calendar/Calendar.svelte';
+    import { getSelectedDate } from '#lib/stores/calendarStore.svelte.ts';
     import { Button } from '#lib';
     import SwipeCarousel from './SwipeCarousel.svelte';
     import { format } from 'date-fns';
@@ -76,13 +76,13 @@
 </script>
 
 <div
-    class="mx-auto flex w-full min-w-0 max-w-95 flex-col bg-bg-primary p-3 text-foreground sm:p-4"
+    class="h-95 mx-auto flex w-full min-w-0 max-w-95 flex-col bg-bg-primary p-3 text-foreground sm:p-4"
 >
     <div class="mb-3 flex items-center px-1">
         <Button.Root
             variant="ghost"
             onclick={zoomOut}
-            class="h-11 min-w-0 rounded-xl px-4 text-base font-semibold  hover:bg-muted active:scale-[0.98]"
+            class="h-11 min-w-0  rounded-xl px-4 text-base font-semibold  hover:bg-muted active:scale-[0.98]"
         >
             {title}
         </Button.Root>

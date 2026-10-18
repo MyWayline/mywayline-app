@@ -1,7 +1,7 @@
 import type { HTMLInputAttributes } from 'svelte/elements';
 
 export type InputProps = {
-    child?: import('svelte').Snippet<[{ props: Record<string, any> }]>;
+    child?: import('svelte').Snippet<[{ props: Record<string, unknown> }]>;
     ref?: HTMLInputElement | null;
 } & HTMLInputAttributes;
 

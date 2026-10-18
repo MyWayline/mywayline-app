@@ -8,43 +8,23 @@ import {
     startOfMonth,
     startOfWeek,
 } from 'date-fns';
-import { de, type Locale } from 'date-fns/locale';
+import { de } from 'date-fns/locale';
+import type {
+    CalendarDay,
+    CalendarGridOptions,
+    CalendarMonth,
+    CalendarWeek,
+    WeekStart,
+} from '#lib/types/Calendar.ts';
 
-export type WeekStart = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-
-export interface DateOptions {
-    weekStartsOn?: WeekStart;
-    locale?: Locale;
-}
-
-export interface CalendarDay {
-    date: Date;
-    day: number;
-    inMonth: boolean;
-    isToday: boolean;
-    isSelected: boolean;
-}
-
-export interface CalendarWeek {
-    weekNumber: number;
-    isSelected: boolean;
-    days: CalendarDay[];
-}
-
-export interface CalendarMonth {
-    index: number;
-    date: Date;
-    label: string;
-    isCurrent: boolean;
-    isSelected: boolean;
-}
+type DateOptions = Pick<CalendarGridOptions, 'weekStartsOn' | 'locale'>;
 
 const DEFAULTS = { weekStartsOn: 1 as WeekStart, locale: de };
 
 export const getMonthGrid = (
     month: Date,
     selected: Date = new Date(),
-    options: DateOptions & { fixedRows?: boolean; today?: Date } = {}
+    options: CalendarGridOptions = {}
 ): CalendarWeek[] => {
     const { weekStartsOn, locale } = { ...DEFAULTS, ...options };
     const today = options.today ?? new Date();

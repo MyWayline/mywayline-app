@@ -7,7 +7,7 @@
     let {
         anchor,
         ref = $bindable(),
-    }: { anchor?: Snippet<[{ props: Record<string, any> }]>; ref?: HTMLElement } =
+    }: { anchor?: Snippet<[{ props: Record<string, unknown> }]>; ref?: HTMLElement } =
         $props();
     const state = getContext<FloatingMenuState>('FLOATING_MENU_ROOT');
 

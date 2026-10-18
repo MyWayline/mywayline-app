@@ -2,6 +2,7 @@
     import { Button, Checkbox, Toggle } from '#lib';
     import { api } from '#lib/api/api.ts';
     import { GoogleAuthService } from '#lib/services/google-auth.service.ts';
+    import { userStore } from '#lib/stores/userStore.svelte.js';
     import { goto } from '$app/navigation';
     import { Plus } from '@lucide/svelte';
     import { onMount } from 'svelte';
@@ -18,3 +19,4 @@
 <Button.Root variant="ghost">>Link google</Button.Root>
 <p>{data.userInfo?.username}</p>
 <p>{data.userInfo?.email}</p>
+<button onclick={() => userStore.logOut()}>Logout</button>

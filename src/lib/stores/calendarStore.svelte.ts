@@ -1,14 +1,5 @@
 import type { CalendarMode } from '#lib/types/Calendar.ts';
-import {
-    addDays,
-    addMonths,
-    addWeeks,
-    eachDayOfInterval,
-    endOfMonth,
-    endOfWeek,
-    startOfMonth,
-    startOfWeek,
-} from 'date-fns';
+import { addDays, addMonths, addWeeks, startOfWeek } from 'date-fns';
 
 let selectedDate: Date = $state(new Date());
 let mode = $state<CalendarMode>('week');
