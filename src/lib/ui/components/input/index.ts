@@ -5,10 +5,13 @@ export type InputProps = {
     ref?: HTMLInputElement | null;
 } & HTMLInputAttributes;
 
-export interface StyledInputProps extends Omit<InputProps, 'child'> {
-    variant?: 'normal' | 'authinput';
+export interface StyledInputProps extends Omit<InputProps, 'child' | 'size'> {
+    variant?: 'ghost' | 'primary' | 'secondary';
+    appearance?: 'plain' | 'underline';
+    size?: 'sm' | 'md' | 'lg';
     label?: string;
     id?: string;
+    inputClass?: string;
     passwordIndicator?: boolean;
     error?: string;
 }

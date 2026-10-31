@@ -19,6 +19,6 @@ export interface CheckboxProps extends Omit<HTMLButtonAttributes, 'type' | 'chil
 }
 
 export interface StyledCheckboxProps extends Omit<CheckboxProps, 'child'> {
-    variant?: 'default' | 'destructive';
+    variant?: 'ghost' | 'primary' | 'secondary';
     size?: 'sm' | 'md' | 'lg';
 }

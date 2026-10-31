@@ -18,10 +18,7 @@
             'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary shadow-sm',
         secondary:
             'bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-visible:ring-secondary',
-        accent: 'bg-accent text-accent-foreground hover:bg-accent/90 focus-visible:ring-accent shadow-sm',
-        destructive:
-            'bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive shadow-sm',
-        ghost: 'bg-transparent text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 active:bg-neutral-200/70 focus-visible:ring-neutral-500',
+        ghost: 'bg-transparent text-muted-foreground hover:bg-muted active:bg-muted/70 focus-visible:ring-focus',
     };
 
     const sizes = {

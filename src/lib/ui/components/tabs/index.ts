@@ -9,13 +9,13 @@ export type TabState = {
 export interface TabBaseContentProps extends HTMLAttributes<HTMLDivElement> {
     value: string;
     ref?: HTMLDivElement;
-    child?: Snippet<    [{ props: Record<string, unknown> }]>;
+    child?: Snippet<[{ props: Record<string, unknown> }]>;
     children?: Snippet<[]>;
 }
 
 export interface TabBaseListProps extends HTMLAttributes<HTMLDivElement> {
     ref?: HTMLDivElement;
-    child?: Snippet<    [{ props: Record<string, unknown> }]>;
+    child?: Snippet<[{ props: Record<string, unknown> }]>;
     children?: Snippet<[]>;
 }
 
@@ -23,7 +23,7 @@ export interface TabBaseTriggerProps extends HTMLButtonAttributes {
     value: string;
     ref?: HTMLButtonElement;
     disabled?: boolean;
-    child?: Snippet<    [{ props: Record<string, unknown> }]>;
+    child?: Snippet<[{ props: Record<string, unknown> }]>;
     children?: Snippet<[]>;
 }
 
@@ -32,7 +32,7 @@ export interface TabBaseProps extends HTMLAttributes<HTMLDivElement> {
     controlled?: boolean;
     onValueChange?: (item: string) => void;
     children?: Snippet<[]>;
-    child?: Snippet<    [{ props: Record<string, unknown> }]>;
+    child?: Snippet<[{ props: Record<string, unknown> }]>;
     ref?: HTMLDivElement;
 }
 
@@ -42,13 +42,14 @@ export interface StyledTabsProps extends Omit<TabBaseProps, 'child'> {
 
 export interface StyledTabListProps extends Omit<TabBaseListProps, 'child'> {
     children?: Snippet<[]>;
-    variant?: 'default' | 'subtle';
+    variant?: 'ghost' | 'primary' | 'secondary';
+    classIndicator?: string;
 }
 
 export interface StyledTabTriggerProps extends Omit<TabBaseTriggerProps, 'child'> {
     children?: Snippet<[]>;
-    variant?: 'default' | 'subtle';
-    size?: 'sm' | 'md';
+    variant?: 'ghost' | 'primary' | 'secondary';
+    size?: 'sm' | 'md' | 'lg';
 }
 
 export interface StyledTabContentProps extends Omit<TabBaseContentProps, 'child'> {

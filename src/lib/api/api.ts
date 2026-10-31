@@ -2,7 +2,7 @@ import {
     isApiErrorPayload,
     type ApiErrorPayload,
     type ApiResult,
-} from '#lib/types/ApiTypes.ts';
+} from '#lib/types/HeyApi.types.ts';
 import {
     loginUser,
     logoutUser,

@@ -3,7 +3,7 @@
     import { withRef } from '../../../utils/ref-attachment';
     import type { InputProps } from '..';
 
-    let { child, ref = $bindable(), ...rest }: InputProps = $props();
+    let { child, value = $bindable(), ref = $bindable(), ...rest }: InputProps = $props();
 
     const mergedProps = $derived(
         mergeProps(
@@ -22,5 +22,5 @@
 {#if child}
     {@render child({ props: mergedProps })}
 {:else}
-    <input {...mergedProps} />
+    <input bind:value {...mergedProps} />
 {/if}

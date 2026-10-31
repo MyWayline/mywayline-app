@@ -11,16 +11,11 @@
     } & BottomSheet.BottomSheetProps = $props();
 </script>
 
-<BottomSheet.Root
-    position="left"
-    bind:isSheetOpen={isOpen}
-    sheetSideOffset={16}
-    {...rest}
->
+<BottomSheet.Root position="left" bind:isSheetOpen={isOpen} sheetSideOffset={8} {...rest}>
     <BottomSheet.Sheet
-        class="shadow-2xl rounded-lg bottom-[calc(env(safe-area-inset-bottom,0px)+1rem)]! top-[calc(env(safe-area-inset-top,0px)+1rem)]!"
+        class="shadow-2xl rounded-lg bottom-[calc(env(safe-area-inset-bottom,0px)+0.5rem)]! top-[calc(env(safe-area-inset-top,0px)+0.5rem)]!"
     >
-        <BottomSheet.Content class="bg-white rounded-lg">
+        <BottomSheet.Content class="bg-bg-primary rounded-lg">
             {@render children?.()}
         </BottomSheet.Content>
     </BottomSheet.Sheet>

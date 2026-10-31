@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetLogStatusData, GetLogStatusResponses, GetUserDetailsData, GetUserDetailsResponses, LoginUserData, LoginUserResponses, LogoutUserData, LogoutUserResponses, RefreshTokenData, RefreshTokenResponses, RegisterUserData, RegisterUserResponses, UpdateLogStatusData, UpdateLogStatusResponses } from './types.gen';
+import type { ChangePasswordData, ChangePasswordResponses, CreateEventData, CreateEventResponses, DeleteEventData, DeleteEventResponses, DeleteUserData, DeleteUserResponses, GetAllEventsData, GetAllEventsResponses, GetEventData, GetEventResponses, GetLogStatusData, GetLogStatusResponses, GetUserDetailsData, GetUserDetailsResponses, LoginUserData, LoginUserResponses, LogInWithGoogleData, LogInWithGoogleResponses, LogoutUserData, LogoutUserResponses, RefreshTokenData, RefreshTokenResponses, RegisterUserData, RegisterUserResponses, UpdateEventData, UpdateEventResponses, UpdateLogStatusData, UpdateLogStatusResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -20,6 +20,37 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 
 export const updateLogStatus = <ThrowOnError extends boolean = false>(options: Options<UpdateLogStatusData, ThrowOnError>) => (options.client ?? client).put<UpdateLogStatusResponses, unknown, ThrowOnError>({
     url: '/log/update',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const deleteEvent = <ThrowOnError extends boolean = false>(options: Options<DeleteEventData, ThrowOnError>) => (options.client ?? client).delete<DeleteEventResponses, unknown, ThrowOnError>({ url: '/event/{eventId}', ...options });
+
+export const getEvent = <ThrowOnError extends boolean = false>(options: Options<GetEventData, ThrowOnError>) => (options.client ?? client).get<GetEventResponses, unknown, ThrowOnError>({ url: '/event/{eventId}', ...options });
+
+export const updateEvent = <ThrowOnError extends boolean = false>(options: Options<UpdateEventData, ThrowOnError>) => (options.client ?? client).put<UpdateEventResponses, unknown, ThrowOnError>({
+    url: '/event/{eventId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const changePassword = <ThrowOnError extends boolean = false>(options: Options<ChangePasswordData, ThrowOnError>) => (options.client ?? client).put<ChangePasswordResponses, unknown, ThrowOnError>({
+    url: '/auth/change-password',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const createEvent = <ThrowOnError extends boolean = false>(options: Options<CreateEventData, ThrowOnError>) => (options.client ?? client).post<CreateEventResponses, unknown, ThrowOnError>({
+    url: '/event/create',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -49,6 +80,19 @@ export const loginUser = <ThrowOnError extends boolean = false>(options: Options
     }
 });
 
+export const logInWithGoogle = <ThrowOnError extends boolean = false>(options: Options<LogInWithGoogleData, ThrowOnError>) => (options.client ?? client).post<LogInWithGoogleResponses, unknown, ThrowOnError>({
+    url: '/auth/google',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
 export const getUserDetails = <ThrowOnError extends boolean = false>(options?: Options<GetUserDetailsData, ThrowOnError>) => (options?.client ?? client).get<GetUserDetailsResponses, unknown, ThrowOnError>({ url: '/user/details', ...options });
 
 export const getLogStatus = <ThrowOnError extends boolean = false>(options?: Options<GetLogStatusData, ThrowOnError>) => (options?.client ?? client).get<GetLogStatusResponses, unknown, ThrowOnError>({ url: '/log/status', ...options });
+
+export const getAllEvents = <ThrowOnError extends boolean = false>(options?: Options<GetAllEventsData, ThrowOnError>) => (options?.client ?? client).get<GetAllEventsResponses, unknown, ThrowOnError>({ url: '/event/all', ...options });
+
+export const deleteUser = <ThrowOnError extends boolean = false>(options: Options<DeleteUserData, ThrowOnError>) => (options.client ?? client).delete<DeleteUserResponses, unknown, ThrowOnError>({ url: '/auth/delete', ...options });

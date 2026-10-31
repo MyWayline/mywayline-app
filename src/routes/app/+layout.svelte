@@ -15,23 +15,35 @@
     ]);
 </script>
 
-{@render children()}
-<div
-    class="h-15 bg-white flex justify-around items-center fixed bottom-(--safe-bottom) w-full"
->
-    {#each navigationBarRoutes as route}
-        <div class="flex flex-col justify-center items-center relative">
-            <Button.Root variant="ghost" iconOnly onclick={() => goto(route.path)}>
-                <route.icon size={20} />
-            </Button.Root>
+<div class="flex flex-col h-dvh overflow-hidden">
+    <main class="flex-1 min-h-0 overflow-y-auto">
+        {@render children()}
+    </main>
 
-            <span
-                class="absolute -bottom-1 block w-1.5 h-1.5 rounded-full ring-2 ring-white bg-primary-foreground transition-opacity duration-200 {page.url.pathname.startsWith(
-                    route.path
-                )
-                    ? 'opacity-100'
-                    : 'opacity-0'}"
-            ></span>
+    <nav
+        class="shrink-0 bg-bg-primary flex flex-col"
+        style="margin-bottom: calc(var(--safe-bottom)*2);"
+    >
+        <div class="h-15 flex justify-around items-center">
+            {#each navigationBarRoutes as route}
+                <div class="flex flex-col justify-center items-center relative">
+                    <Button.Root
+                        variant="ghost"
+                        iconOnly
+                        onclick={() => goto(route.path)}
+                    >
+                        <route.icon size={20} />
+                    </Button.Root>
+
+                    <span
+                        class="absolute -bottom-1 block w-1.5 h-1.5 rounded-full bg-accent transition-opacity duration-200 {page.url.pathname.startsWith(
+                            route.path
+                        )
+                            ? 'opacity-100'
+                            : 'opacity-0'}"
+                    ></span>
+                </div>
+            {/each}
         </div>
-    {/each}
+    </nav>
 </div>

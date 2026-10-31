@@ -5,36 +5,89 @@
     --safe-bottom: env(safe-area-inset-bottom, 0px);
     --safe-left: env(safe-area-inset-left, 0px);
     --safe-right: env(safe-area-inset-right, 0px);
+
+    --app-bg: var(--color-bg-primary);
 }
 
 @theme {
+    /* Background */
     --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f5f3f0;
+    --color-bg-secondary: #f2ede2;
+    --color-input: #ffffff;
 
-    --color-primary: #59c63f;
-    --color-primary-foreground: #1b1b28;
+    /* Global */
+    --color-main-foreground: #344333;
 
-    --color-secondary: #e2e8f0;
-    --color-secondary-foreground: #1b1b28;
+    /* Primary */
+    --color-primary: #91a442;
+    --color-primary-foreground: #ffffff;
 
-    /* Vollständige HSL-Angabe mit hsl() */
-    --color-accent: hsl(262.1, 83.3%, 57.8%);
-    --color-accent-foreground: #1b1b28;
+    /* Secondary */
+    --color-secondary: #d6a84f;
+    --color-secondary-foreground: #26351f;
 
-    --color-destructive: hsl(0, 84.2%, 60.2%);
-    --color-destructive-foreground: hsl(210, 40%, 98%);
+    /* Accent */
+    --color-accent: #388b68;
+    --color-accent-foreground: #ffffff;
 
-    /* Hier lag der Fehler: Ohne hsl() Wrapper hat Tailwind v4 Probleme beim Rendern der Borders */
-    --color-muted: hsl(210, 40%, 96.1%);
-    --color-muted-foreground: hsl(215.4, 16.3%, 46.9%);
+    /* Muted */
+    --color-muted: #f0f1eb;
+    --color-muted-foreground: #78816e;
 
+    /* Semantic */
+    --color-destructive: #dc5555;
+    --color-destructive-foreground: #ffffff;
+
+    --color-success: #388b68;
+    --color-success-background: #dcefe5;
+    --color-warning: #c58b2a;
+
+    /* Borders and focus */
+    --color-focus: var(--color-accent);
+    --color-border: #d9d5cb;
+
+    /* Radius */
     --radius-*: initial;
     --radius-sm: 0.25rem;
     --radius-lg: 0.5rem;
 }
 
-:root {
-    --app-bg: var(--color-bg-primary);
+[data-theme='dark'] {
+    /* Background */
+    --color-bg-primary: #202820;
+    --color-bg-secondary: #2b3429;
+    --color-input: #293229;
+
+    /* Global */
+    --color-main-foreground: #edf1e7;
+
+    /* Primary */
+    --color-primary: #a8ba60;
+    --color-primary-foreground: #202820;
+
+    /* Secondary */
+    --color-secondary: #e0b75f;
+    --color-secondary-foreground: #302819;
+
+    /* Accent */
+    --color-accent: #65ad87;
+    --color-accent-foreground: #172c21;
+
+    /* Muted */
+    --color-muted: #303a30;
+    --color-muted-foreground: #a3ad9b;
+
+    /* Semantic */
+    --color-destructive: #f07171;
+    --color-destructive-foreground: #2b1717;
+
+    --color-success: #65ad87;
+    --color-success-background: #293f32;
+    --color-warning: #e0b15b;
+
+    /* Borders and focus */
+    --color-focus: var(--color-accent);
+    --color-border: #414b3e;
 }
 
 html:has([data-page-bg='secondary']) {
@@ -44,5 +97,15 @@ html:has([data-page-bg='secondary']) {
 html,
 body {
     background: var(--app-bg);
+    color: var(--color-main-foreground);
     transition: background-color 200ms;
+    font-family: 'Geist', sans-serif;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('./assets/Geist.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
 }

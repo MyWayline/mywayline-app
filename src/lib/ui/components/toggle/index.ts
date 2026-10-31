@@ -9,7 +9,7 @@ export type ToggleProps = {
 } & HTMLButtonAttributes;
 
 export interface StyledToggleProps extends Omit<ToggleProps, 'child'> {
-    variant?: 'default' | 'outline' | 'subtle' | 'ghost';
+    variant?: 'ghost' | 'primary' | 'secondary';
     size?: 'sm' | 'md' | 'lg';
 }
 

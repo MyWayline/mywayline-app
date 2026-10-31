@@ -141,8 +141,6 @@
                     'max-height': `${coords.maxHeight}px`,
                     'max-width': `calc(100vw - ${padding * 2}px)`,
                     'overflow-y': 'auto',
-                    display: 'flex',
-                    'flex-direction': 'column',
                     visibility: coords.visibility,
                     'z-index': 50,
                     'pointer-events': coords.visibility === 'hidden' ? 'none' : 'auto',

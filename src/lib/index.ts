@@ -4,4 +4,8 @@ export * as Button from './ui/components/button/index';
 export * as Input from './ui/components/input/index';
 export * as Tabs from './ui/components/tabs/index';
 export * as Select from './ui/components/select/index';
+export * as Switch from './ui/components/switch/index';
+export * as ToggleGroup from './ui/components/toggle-group/index';
+export * as MultiScreenPager from './components/MultiScreenPager/index';
+export * as RadioGroup from './ui/components/radiogroup/index';
 export type * from './types/index';

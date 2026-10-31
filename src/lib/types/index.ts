@@ -1,6 +1,5 @@
-export type * from './ApiTypes.ts';
-export type * from './Calendar.ts';
-export type * from './CalendarCalculations.ts';
-export type * from './User.ts';
+export type * from './HeyApi.types.ts';
+export type * from './Calendar.types.ts';
+export type * from './User.types..ts';
 
-export { isApiErrorPayload } from './ApiTypes.ts';
+export { isApiErrorPayload } from './HeyApi.types.ts';

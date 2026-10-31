@@ -6,18 +6,20 @@
     let {
         checked = $bindable(false),
         indeterminate = $bindable(false),
-        variant = 'default',
-        size = 'lg',
+        variant = 'primary',
+        size = 'md',
         class: className,
         children,
         ...rest
     }: Checkbox.StyledCheckboxProps = $props();
 
     const variants = {
-        default:
-            'border-neutral-200 bg-neutral-50 focus-visible:ring-neutral-500 data-[state=checked]:bg-neutral-900 data-[state=checked]:border-neutral-900 data-[state=indeterminate]:bg-neutral-900 data-[state=indeterminate]:border-neutral-900 text-white',
-        destructive:
-            'border-red-300 bg-white focus-visible:ring-red-500 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600 data-[state=indeterminate]:bg-red-600 data-[state=indeterminate]:border-red-600 text-white',
+        primary:
+            'border-border bg-muted focus-visible:ring-focus data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=indeterminate]:bg-primary data-[state=indeterminate]:border-primary text-primary-foreground',
+        secondary:
+            'border-border bg-muted focus-visible:ring-focus data-[state=checked]:bg-secondary data-[state=checked]:border-secondary data-[state=indeterminate]:bg-secondary data-[state=indeterminate]:border-secondary text-secondary-foreground',
+        ghost:
+            'border-border bg-transparent focus-visible:ring-focus data-[state=checked]:bg-muted data-[state=checked]:border-muted data-[state=indeterminate]:bg-muted data-[state=indeterminate]:border-muted text-main-foreground',
     };
 
     const sizes = {

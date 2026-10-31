@@ -1,6 +1,6 @@
 import { api } from '#lib/api/api.ts';
 import { setItem, getItem, deleteItem } from 'tauri-plugin-secure-keystore';
-import { type UserInfo } from '#lib/types/User.ts';
+import { type UserInfo } from '#lib/types/User.types..ts';
 import { goto } from '$app/navigation';
 
 let accessToken: string | null = $state(null);

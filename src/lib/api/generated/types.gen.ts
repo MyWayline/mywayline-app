@@ -20,10 +20,43 @@ export type LogStatusResponse = {
     exceptions?: boolean;
 };
 
+export type EventRequest = {
+    title: string;
+    description: string;
+    startTime: string;
+    endTime: string;
+    isAllDay?: boolean;
+    recurrenceRule?: Recurrence;
+    validTimeRange?: boolean;
+};
+
+export type Recurrence = {
+    interval: number;
+    frequency: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+    amount?: number;
+};
+
+export type EventResponse = {
+    id?: string;
+    title?: string;
+    description?: string;
+    startTime?: string;
+    endTime?: string;
+    isAllDay?: boolean;
+    recurrenceRule?: Recurrence;
+};
+
+export type ChangePasswordRequest = {
+    currentPassword?: string;
+    newPassword: string;
+};
+
 export type UserRegisterRequest = {
-    username?: string;
-    email?: string;
-    password?: string;
+    username: string;
+    email: string;
+    password: string;
+    usernameValid?: boolean;
+    passwordValid?: boolean;
 };
 
 export type UserKeys = {
@@ -34,6 +67,10 @@ export type UserKeys = {
 export type UserLoginRequest = {
     email?: string;
     password?: string;
+};
+
+export type GoogleAuthRequest = {
+    idToken: string;
 };
 
 export type UserDetailsResponse = {
@@ -58,6 +95,93 @@ export type UpdateLogStatusResponses = {
 };
 
 export type UpdateLogStatusResponse = UpdateLogStatusResponses[keyof UpdateLogStatusResponses];
+
+export type DeleteEventData = {
+    body?: never;
+    path: {
+        eventId: string;
+    };
+    query?: never;
+    url: '/event/{eventId}';
+};
+
+export type DeleteEventResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type DeleteEventResponse = DeleteEventResponses[keyof DeleteEventResponses];
+
+export type GetEventData = {
+    body?: never;
+    path: {
+        eventId: string;
+    };
+    query?: never;
+    url: '/event/{eventId}';
+};
+
+export type GetEventResponses = {
+    /**
+     * OK
+     */
+    200: EventResponse;
+};
+
+export type GetEventResponse = GetEventResponses[keyof GetEventResponses];
+
+export type UpdateEventData = {
+    body: EventRequest;
+    path: {
+        eventId: string;
+    };
+    query?: never;
+    url: '/event/{eventId}';
+};
+
+export type UpdateEventResponses = {
+    /**
+     * OK
+     */
+    200: EventResponse;
+};
+
+export type UpdateEventResponse = UpdateEventResponses[keyof UpdateEventResponses];
+
+export type ChangePasswordData = {
+    body: ChangePasswordRequest;
+    headers: {
+        Authorization: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/auth/change-password';
+};
+
+export type ChangePasswordResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type CreateEventData = {
+    body: EventRequest;
+    path?: never;
+    query?: never;
+    url: '/event/create';
+};
+
+export type CreateEventResponses = {
+    /**
+     * Created
+     */
+    201: EventResponse;
+};
+
+export type CreateEventResponse = CreateEventResponses[keyof CreateEventResponses];
 
 export type RegisterUserData = {
     body: UserRegisterRequest;
@@ -129,6 +253,22 @@ export type LoginUserResponses = {
 
 export type LoginUserResponse = LoginUserResponses[keyof LoginUserResponses];
 
+export type LogInWithGoogleData = {
+    body: GoogleAuthRequest;
+    path?: never;
+    query?: never;
+    url: '/auth/google';
+};
+
+export type LogInWithGoogleResponses = {
+    /**
+     * OK
+     */
+    200: UserKeys;
+};
+
+export type LogInWithGoogleResponse = LogInWithGoogleResponses[keyof LogInWithGoogleResponses];
+
 export type GetUserDetailsData = {
     body?: never;
     path?: never;
@@ -160,3 +300,42 @@ export type GetLogStatusResponses = {
 };
 
 export type GetLogStatusResponse = GetLogStatusResponses[keyof GetLogStatusResponses];
+
+export type GetAllEventsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        startTime?: string;
+        endTime?: string;
+        title?: string;
+    };
+    url: '/event/all';
+};
+
+export type GetAllEventsResponses = {
+    /**
+     * OK
+     */
+    200: Array<EventResponse>;
+};
+
+export type GetAllEventsResponse = GetAllEventsResponses[keyof GetAllEventsResponses];
+
+export type DeleteUserData = {
+    body?: never;
+    headers: {
+        Authorization: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/auth/delete';
+};
+
+export type DeleteUserResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type DeleteUserResponse = DeleteUserResponses[keyof DeleteUserResponses];

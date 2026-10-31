@@ -4,7 +4,7 @@
 
     let {
         children,
-        variant = 'default',
+        variant = 'primary',
         size = 'md',
         class: className,
         ...rest
@@ -13,11 +13,13 @@
     const sizes = {
         sm: 'text-xs px-3 py-1.5',
         md: 'text-sm px-5 py-3',
+        lg: 'text-base px-6 py-3.5',
     };
 
     const variants = {
-        default: 'text-neutral-600 data-[active]:text-neutral-900',
-        subtle: 'text-neutral-500 data-[active]:text-primary',
+        primary: 'text-muted-foreground data-[active]:text-primary-foreground',
+        secondary: 'text-muted-foreground data-[active]:text-secondary-foreground',
+        ghost: 'text-muted-foreground data-[active]:text-main-foreground',
     };
 </script>
 

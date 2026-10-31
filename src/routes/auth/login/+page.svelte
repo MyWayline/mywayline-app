@@ -181,7 +181,7 @@
                         {/if}
 
                         <Input.Styled
-                            variant="authinput"
+                            variant="primary"
                             type="email"
                             placeholder="email@example.com"
                             label="E-Mail"
@@ -193,7 +193,7 @@
                         />
 
                         <Input.Styled
-                            variant="authinput"
+                            variant="primary"
                             type="password"
                             placeholder="Password"
                             label="Password"
@@ -231,7 +231,7 @@
                         {/if}
 
                         <Input.Styled
-                            variant="authinput"
+                            variant="primary"
                             id="email"
                             name="email"
                             label="Email"
@@ -245,7 +245,7 @@
                         />
 
                         <Input.Styled
-                            variant="authinput"
+                            variant="primary"
                             id="username"
                             name="username"
                             label="Username"
@@ -258,7 +258,7 @@
                         />
 
                         <Input.Styled
-                            variant="authinput"
+                            variant="primary"
                             id="password"
                             name="password"
                             label="Password"
@@ -274,7 +274,7 @@
                         />
 
                         <Input.Styled
-                            variant="authinput"
+                            variant="primary"
                             id="confirm-password"
                             name="confirm-password"
                             label="Confirm Password"

@@ -7,7 +7,6 @@ import { heyApiPlugin } from '@hey-api/vite-plugin';
 
 // @ts-expect-error type error without @types/node package
 import process from 'node:process';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -15,8 +14,13 @@ export default defineConfig(() => ({
     plugins: [
         tailwindcss(),
         sveltekit({
-            preprocess: vitePreprocess(),
-            adapter: adapter({ fallback: 'index.html' }),
+            adapter: adapter({
+                pages: 'build',
+                assets: 'build',
+                fallback: 'index.html',
+                precompress: false,
+                strict: true,
+            }),
         }),
         lucidePreprocess(),
         heyApiPlugin({
@@ -37,6 +41,7 @@ export default defineConfig(() => ({
         strictPort: true,
         host: host || '127.0.0.1',
         hmr: host ? { protocol: 'ws', host, port: 1421 } : undefined,
+
         watch: {
             ignored: ['**/src-tauri/**'],
         },

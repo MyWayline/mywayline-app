@@ -3,7 +3,7 @@
     import * as Toggle from '..';
 
     let {
-        variant = 'default',
+        variant = 'primary',
         size = 'md',
         class: className,
         children,
@@ -12,18 +12,17 @@
     }: Toggle.StyledToggleProps = $props();
 
     const variants = {
-        default:
-            'bg-transparent text-neutral-600 hover:bg-neutral-100 0 data-[state=true]:bg-primary data-[state=true]:text-primary-foreground',
-        outline:
-            'border border-neutral-200  bg-transparent text-neutral-600 hover:bg-neutral-50 data-[state=true]:bg-neutral-900 data-[state=true]:text-white ',
-        subtle: 'bg-transparent text-neutral-600 hover:bg-neutral-100 data-[state=true]:bg-neutral-200/80 data-[state=true]:text-neutral-900 ',
-        ghost: 'bg-transparent text-neutral-600  hover:bg-neutral-100  active:bg-neutral-200/70  data-[state=true]:text-neutral-900 ',
+        primary:
+            'bg-transparent text-muted-foreground hover:bg-muted data-[state=true]:bg-primary data-[state=true]:text-primary-foreground',
+        secondary:
+            'bg-transparent text-muted-foreground hover:bg-muted data-[state=true]:bg-secondary data-[state=true]:text-secondary-foreground',
+        ghost: 'bg-transparent text-muted-foreground hover:bg-muted data-[state=true]:bg-muted ',
     };
 
     const sizes = {
-        sm: 'h-9 w-9 text-xs rounded-md',
-        md: 'h-10 w-10 text-sm rounded-md',
-        lg: 'h-12 w-12 text-base rounded-lg',
+        sm: 'min-h-9 px-2 text-xs rounded-sm',
+        md: 'min-h-10 px-3 text-sm rounded-sm',
+        lg: 'min-h-12 px-4 text-base rounded-lg',
     };
 </script>
 
@@ -32,17 +31,17 @@
         <button
             {...props}
             class={cn(
-                'relative inline-flex items-center justify-center font-medium transition-all outline-none select-none shrink-0 [webkit-tap-highlight-color:transparent]',
+                'inline-flex items-center justify-center font-medium transition-all outline-none select-none shrink-0 [webkit-tap-highlight-color:transparent]',
                 'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary disabled:opacity-40 disabled:pointer-events-none',
                 'active:scale-[0.96]',
-                'active:bg-neutral-100 dark:active:bg-neutral-800 data-[state=true]:active:opacity-90',
+                'active:bg-muted data-[state=true]:active:opacity-90',
                 variants[variant],
                 sizes[size],
                 className,
                 props.class as string
             )}
         >
-            <span class="relative z-10 inline-flex items-center justify-center">
+            <span class=" inline-flex items-center justify-center whitespace-nowrap">
                 {@render children?.()}
             </span>
         </button>

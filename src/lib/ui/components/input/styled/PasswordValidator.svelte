@@ -54,13 +54,6 @@
         { label: 'Special character', met: hasSpecial },
     ]);
 
-    const barColors = {
-        none: 'bg-neutral-200',
-        'very weak': 'bg-red-500',
-        weak: 'bg-orange-500',
-        good: 'bg-yellow-500',
-        strong: 'bg-emerald-500',
-    };
 </script>
 
 <div class="flex flex-col gap-2 w-full">
@@ -68,11 +61,11 @@
         {#each Array(4) as _, index}
             <div
                 class="h-0.75 grow rounded-full transition-colors duration-200"
-                class:bg-neutral-200={index >= activeBars}
-                class:bg-red-500={index < activeBars && currentState === 'veryweak'}
-                class:bg-orange-500={index < activeBars && currentState === 'weak'}
-                class:bg-yellow-500={index < activeBars && currentState === 'good'}
-                class:bg-emerald-500={index < activeBars && currentState === 'strong'}
+                class:bg-muted={index >= activeBars}
+                class:bg-destructive={index < activeBars && currentState === 'veryweak'}
+                class:bg-warning={index < activeBars && currentState === 'weak'}
+                class:bg-secondary={index < activeBars && currentState === 'good'}
+                class:bg-success={index < activeBars && currentState === 'strong'}
             ></div>
         {/each}
     </div>
@@ -81,12 +74,10 @@
         {#each [...criteria].sort((a, b) => Number(b.met) - Number(a.met)) as item}
             <div
                 class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full transition-all duration-200"
-                class:bg-neutral-100={!item.met}
-                class:text-neutral-500={!item.met}
-                class:dark:bg-neutral-800={!item.met}
-                class:bg-emerald-100={item.met}
-                class:text-emerald-600={item.met}
-                class:dark:text-emerald-400={item.met}
+                class:bg-muted={!item.met}
+                class:text-muted-foreground={!item.met}
+                class:bg-success-background={item.met}
+                class:text-success={item.met}
             >
                 {#if item.met}
                     <Check size={12} strokeWidth={3} />
