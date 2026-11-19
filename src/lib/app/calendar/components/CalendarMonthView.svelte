@@ -3,12 +3,10 @@
         addDays,
         addMonths,
         eachDayOfInterval,
-        format,
         isSameDay,
         isSameMonth,
         startOfWeek,
     } from 'date-fns';
-    import { de } from 'date-fns/locale';
     import CalendarPager from './CalendarPager.svelte';
     import { getCalendarContext } from '../calendarContext.svelte';
     import { calendarDataAdapter } from '../services/calendarDataAdapter';
@@ -16,9 +14,9 @@
     import { cubicOut } from 'svelte/easing';
     import { untrack } from 'svelte';
     import type { MonthWeekRow } from '../types/CalendarLayout.types';
-    import { formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
+    import { DateFormat, formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
     import { calendarDataStore } from '../stores/calendarDataStore.svelte';
-    import { formatEventDate } from '#lib/shared/utils/TimeDateUtils.ts';
+    import { formatEventDate } from '#lib/shared/utils/DateFormatUtils.ts';
     import { Button } from '#lib';
 
     const AXIS_LOCK_PX = 15;
@@ -179,7 +177,7 @@
     <div class="grid grid-cols-7 gap-1 pb-1">
         {#each weekdays as d (d.getTime())}
             <span class="text-center text-xs text-muted-foreground">
-                {format(d, 'EEEEE', { locale: de })}
+                {formatDate(d, DateFormat.WEEKDAY_INITIAL)}
             </span>
         {/each}
     </div>
@@ -248,7 +246,7 @@
                                             class:bg-bg-primary={isSelected}
                                             class:font-semibold={isToday || isSelected}
                                         >
-                                            {format(day, 'd')}
+                                            {formatDate(day, DateFormat.DAY_OF_MONTH)}
                                         </span>
                                     </button>
                                 {/each}
@@ -307,7 +305,7 @@
         </div>
         <div class="pt-4 min-h-0 flex-1 flex flex-col gap-2 overflow-hidden">
             <p class="text-xl font-medium shrink-0">
-                {formatDate(calendarContext.selectedDate, 'dayWeekday')}
+                {formatDate(calendarContext.selectedDate, DateFormat.DAY_WEEKDAY)}
             </p>
 
             <div class="min-h-0 flex-1 overflow-y-auto flex flex-col gap-2">

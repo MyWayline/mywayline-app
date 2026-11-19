@@ -8,14 +8,14 @@
     import CalendarMonthView from './CalendarMonthView.svelte';
     import { Button } from '#lib';
     import { Pencil, Plus, Trash, X } from '@lucide/svelte';
-    import { format, set } from 'date-fns';
-    import { de } from 'date-fns/locale';
+    import { set } from 'date-fns';
     import type { ColumnRangeSelection } from '../types/CalendarLayout.types';
     import { goto } from '$app/navigation';
     import NormalBottomSheet from '#lib/shared/components/BottomSheet/NormalBottomSheet.svelte';
     import { calendarDataStore } from '../stores/calendarDataStore.svelte';
-    import { formatEventDate } from '#lib/shared/utils/TimeDateUtils.ts';
+    import { formatEventDate } from '#lib/shared/utils/DateFormatUtils.ts';
     import type { ICalEvent } from '#lib/shared/types/Calendar.types.ts';
+    import { DateFormat, formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
 
     let selectedDate = $state(new Date());
     let viewingDate = $state(new Date());
@@ -91,8 +91,8 @@
     });
 
     const rangeLabel = (formatedSelection: { startTime: Date; endTime: Date }) =>
-        `${format(formatedSelection.startTime, 'EEE, d. MMM', { locale: de })} | ` +
-        `${format(formatedSelection.startTime, 'HH:mm')} – ${format(formatedSelection.endTime, 'HH:mm')}`;
+        `${formatDate(formatedSelection.startTime, DateFormat.WEEKDAY_DATE)} | ` +
+        `${formatDate(formatedSelection.startTime, DateFormat.TIME)} – ${formatDate(formatedSelection.endTime, DateFormat.TIME)}`;
 
     $effect(() => {
         if (!selectedItemId || selectedItemId.trim() === '') {

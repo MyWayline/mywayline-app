@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, Input, RadioGroup, ToggleGroup } from '#lib';
     import * as FlowForm from '#lib/shared/components/FlowForm/index.ts';
-    import { formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
+    import { DateFormat, formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
     import { getWeekDays } from '#lib/shared/utils/CalendarGridUtils.ts';
     import { MoveLeft } from '@lucide/svelte';
     import type { RecurrenceForm } from './models/RecurrenceForm';
@@ -76,7 +76,7 @@
                             value={day.getDay().toString()}
                             class="size-10  rounded-full text-xs font-medium"
                         >
-                            {formatDate(day, 'weekdayOnly')}
+                            {formatDate(day, DateFormat.WEEKDAY_SHORT)}
                         </ToggleGroup.Item>
                     {/each}
                 </ToggleGroup.Base>

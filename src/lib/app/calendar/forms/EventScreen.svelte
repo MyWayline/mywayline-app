@@ -3,7 +3,7 @@
     import * as FlowForm from '#lib/shared/components/FlowForm/index.ts';
     import { isAfter, isBefore } from 'date-fns';
     import { ChevronRight, Clock, MoveRight, Repeat2, Route } from '@lucide/svelte';
-    import { formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
+    import { DateFormat, formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
     import TimeSelector from '#lib/shared/components/inputs/TimeSelector.svelte';
     import DateSelector from '#lib/shared/components/inputs/DateSelector.svelte';
     import { CalendarFrequencyUtil } from '#lib/app/calendar/utils/RRules.ts';
@@ -136,24 +136,24 @@
         <ToggleGroup.Base
             type="SINGLE"
             bind:value={selectedDateScreen}
-            class="flex justify-between items-center"
+            class="flex justify-around items-center"
         >
             <div class="flex flex-col gap-1 content-center items-center">
                 <ToggleGroup.BaseItem
                     value="startDate"
-                    class="rounded-full min-h-6 w-35 data-pressed:bg-muted px-2 text-muted-foreground whitespace-nowrap font-medium"
+                    class="rounded-full min-h-6 w-min data-pressed:bg-muted px-2 text-muted-foreground whitespace-nowrap font-medium"
                     >{formatDate(
                         values.startDate,
-                        'weekDayMonthYear'
+                        DateFormat.WEEKDAY_DATE
                     )}</ToggleGroup.BaseItem
                 >
                 {#if !values.isAllDay}
                     <ToggleGroup.BaseItem
                         value="startTime"
-                        class="rounded-full min-h-6 w-min data-pressed:bg-muted px-2 text-muted-foreground"
+                        class="rounded-full min-h-6 text-nowrap w-min data-pressed:bg-muted px-2 text-muted-foreground"
                         >{formatDate(
                             values.startDate,
-                            'timeFormat'
+                            DateFormat.TIME
                         )}</ToggleGroup.BaseItem
                     >
                 {/if}
@@ -162,17 +162,20 @@
             <div class="flex flex-col gap-1 content-center items-center">
                 <ToggleGroup.BaseItem
                     value="endDate"
-                    class="rounded-full min-h-6 w-35 data-pressed:bg-muted px-2 text-muted-foreground whitespace-nowrap font-medium"
+                    class="rounded-full min-h-6 w-min data-pressed:bg-muted px-2 text-muted-foreground whitespace-nowrap font-medium"
                     >{formatDate(
                         values.endDate,
-                        'weekDayMonthYear'
+                        DateFormat.WEEKDAY_DATE
                     )}</ToggleGroup.BaseItem
                 >
                 {#if !values.isAllDay}
                     <ToggleGroup.BaseItem
                         value="endTime"
-                        class="rounded-full min-h-6 w-min data-pressed:bg-muted px-2 text-muted-foreground"
-                        >{formatDate(values.endDate, 'timeFormat')}</ToggleGroup.BaseItem
+                        class="rounded-full min-h-6 text-nowrap w-min data-pressed:bg-muted px-2 text-muted-foreground"
+                        >{formatDate(
+                            values.endDate,
+                            DateFormat.TIME
+                        )}</ToggleGroup.BaseItem
                     >
                 {/if}
             </div>

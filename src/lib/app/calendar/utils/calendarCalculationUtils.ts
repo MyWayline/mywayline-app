@@ -24,7 +24,6 @@ const DAYS_PER_WEEK = 7;
 const MS_PER_MINUTE = 60_000;
 const MS_PER_HOUR = 3_600_000;
 const MS_PER_DAY = 86_400_000;
-const WEEK_OPTIONS = { weekStartsOn: 1 } as const;
 
 const DEFAULT_CONFIG: Required<LayoutConfig> = {
     hourHeightPx: 60,
@@ -276,7 +275,7 @@ const convertItemsForWeek = (
     rawItems: ICalItem[],
     config?: LayoutConfig
 ): WeekLayout => {
-    const weekStart = startOfWeek(date, WEEK_OPTIONS);
+    const weekStart = startOfWeek(date);
     const items = rawItems.map((item) => normalizeItem(item, DEFAULT_CONFIG));
 
     return {
@@ -300,13 +299,10 @@ const convertItemsForMonth = (date: Date, rawItems: ICalItem[]): MonthLayout => 
     const monthStart = startOfMonth(date);
     const items = rawItems.map((item) => normalizeItem(item, DEFAULT_CONFIG));
 
-    const weekStarts = eachWeekOfInterval(
-        {
-            start: monthStart,
-            end: addWeeks(startOfWeek(monthStart, WEEK_OPTIONS), 6),
-        },
-        WEEK_OPTIONS
-    ).slice(0, 6);
+    const weekStarts = eachWeekOfInterval({
+        start: monthStart,
+        end: addWeeks(startOfWeek(monthStart), 6),
+    }).slice(0, 6);
 
     return {
         monthStart,

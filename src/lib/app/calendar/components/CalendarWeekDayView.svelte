@@ -2,14 +2,12 @@
     import {
         addDays,
         addWeeks,
-        format,
         getDate,
         isSameDay,
         startOfDay,
         startOfWeek,
         set,
     } from 'date-fns';
-    import { de } from 'date-fns/locale';
     import { getCalendarContext } from '../calendarContext.svelte';
     import CalendarColumnSidebar from './CalendarColumnSidebar.svelte';
     import CalendarPager from './CalendarPager.svelte';
@@ -21,6 +19,7 @@
     import { Button } from '#lib';
     import { calendarCalculationUtil } from '../utils/calendarCalculationUtils';
     import CalendarTimeSelection from './CalendarTimeSelection.svelte';
+    import { DateFormat, formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
 
     type Page = { days: TimelineDay[]; allDay: SpanLayout; focus: number | null };
 
@@ -149,9 +148,7 @@
                                     {#snippet child({ props })}
                                         <button {...props}>
                                             <span class="text-xs text-muted-foreground">
-                                                {format(day.date, 'EEEEE', {
-                                                    locale: de,
-                                                })}
+                                                {formatDate(day.date, DateFormat.WEEKDAY_INITIAL)}
                                             </span>
                                             <p class="text-lg font-medium">
                                                 {getDate(day.date)}

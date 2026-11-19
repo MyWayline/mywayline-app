@@ -109,7 +109,7 @@
         } else {
             slideNode.style.opacity = '0';
             slideNode.style.transform = 'none';
-            slideNode.style.fontWeight = '400';
+            slideNode.style.fontWeight = '500';
         }
     };
 
@@ -206,7 +206,7 @@
         <div class="h-full w-full transform-3d">
             {#each items as num (num)}
                 <div
-                    class=" text-xl font-semibold flex items-center justify-center backface-hidden text-center h-full w-full opacity-0"
+                    class="text-xl font-medium flex items-center justify-center backface-hidden text-center h-full w-full opacity-0"
                 >
                     {num}
                 </div>

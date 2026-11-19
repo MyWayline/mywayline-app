@@ -9,7 +9,7 @@ import {
     startOfMonth,
     startOfWeek,
 } from 'date-fns';
-import { de } from 'date-fns/locale';
+import { getDefaultOptions } from 'date-fns';
 import type {
     CalendarDay,
     CalendarGridOptions,
@@ -20,14 +20,14 @@ import type {
 
 type DateOptions = Partial<Pick<CalendarGridOptions, 'weekStartsOn' | 'locale'>>;
 
-const DEFAULTS = { weekStartsOn: 1 as WeekStart, locale: de };
+const DEFAULTS = { weekStartsOn: 1 as WeekStart };
 
 export const getMonthGrid = (
     month: Date,
     selected: Date = new Date(),
     options: CalendarGridOptions = {}
 ): CalendarWeek[] => {
-    const { weekStartsOn, locale } = { ...DEFAULTS, ...options };
+    const { weekStartsOn, locale = getDefaultOptions().locale } = { ...DEFAULTS, ...options };
     const today = options.today ?? new Date();
     const first = startOfMonth(month);
     const gridStart = startOfWeek(first, { weekStartsOn, locale });
@@ -64,7 +64,7 @@ export const getMonthsOfYear = (
     selected: Date = new Date(),
     options: DateOptions & { style?: 'short' | 'long'; today?: Date } = {}
 ): CalendarMonth[] => {
-    const { locale } = { ...DEFAULTS, ...options };
+    const { locale = getDefaultOptions().locale } = { ...DEFAULTS, ...options };
     const today = options.today ?? new Date();
     const pattern = options.style === 'long' ? 'MMMM' : 'MMM';
 
@@ -93,7 +93,7 @@ export const getYearBlockForDate = (
     // We say a yearblock starts with a year that is divideable by 12, so 0 is the start of a yearblock
     let startDate = new Date(year - (year % 12), date.getMonth(), date.getDay());
 
-    const { locale } = { ...DEFAULTS, ...options };
+    const { locale = getDefaultOptions().locale } = { ...DEFAULTS, ...options };
     const pattern = options.style === 'short' ? 'yy' : 'yyyy';
 
     return Array.from({ length: 12 }, (_, index) => {
@@ -113,7 +113,7 @@ export const getYearBlockForDate = (
 };
 
 export const getWeekDays = (date: Date, options: DateOptions = {}): Date[] => {
-    const { weekStartsOn, locale } = { ...DEFAULTS, ...options };
+    const { weekStartsOn, locale = getDefaultOptions().locale } = { ...DEFAULTS, ...options };
     const start = startOfWeek(date, { weekStartsOn, locale });
     return Array.from({ length: 7 }, (_, i) => addDays(start, i));
 };

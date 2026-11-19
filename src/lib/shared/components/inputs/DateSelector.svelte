@@ -10,7 +10,6 @@
     import {
         addMonths,
         addYears,
-        format,
         isWithinInterval,
         isSameDay,
         isSameMonth,
@@ -19,7 +18,7 @@
     } from 'date-fns';
     import { ChevronLeft, ChevronRight } from '@lucide/svelte';
     import type { EmblaCarouselType } from 'embla-carousel';
-    import { formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
+    import { DateFormat, formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
 
     type DateSelectorMode = 'DAY' | 'MONTH' | 'YEAR';
     type SelectionMode = 'SINGLE' | 'RANGE';
@@ -143,7 +142,7 @@
     const title = $derived.by(() => {
         switch (currentView) {
             case 'DAY':
-                return format(viewDate, 'MMMM yyyy');
+                return formatDate(viewDate, DateFormat.MONTH_YEAR);
             case 'MONTH':
                 return viewDate.getFullYear();
             case 'YEAR':
@@ -175,11 +174,13 @@
         </Button.Root>
     </div>
     <div class="flex justify-around">
-        {#each getWeekDays(viewDate) as weekday (weekday.getTime())}
-            <p class="text-xs text-muted-foreground">
-                {formatDate(weekday, 'weekdaySmall')}
-            </p>
-        {/each}
+        {#if currentView === 'DAY'}
+            {#each getWeekDays(viewDate) as weekday (weekday.getTime())}
+                <p class="text-xs text-muted-foreground">
+                    {formatDate(weekday, DateFormat.WEEKDAY_INITIAL)}
+                </p>
+            {/each}
+        {/if}
     </div>
     <HorizontalSliderBase
         onnext={() => slideSwitch(1)}
@@ -211,7 +212,7 @@
                                 <Button.Root
                                     onclick={() => ondayselect(day.date)}
                                     variant="ghost"
-                                    aria-label={day.date.toLocaleDateString()}
+                                    aria-label={formatDate(day.date)}
                                     aria-pressed={isSelected}
                                     disabled={isDisabled}
                                     class="size-12  flex items-center justify-center text-sm font-medium disabled:opacity-50
