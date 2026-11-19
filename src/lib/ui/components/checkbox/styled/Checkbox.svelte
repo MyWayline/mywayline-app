@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cn } from '#lib/utils/tw-merge.ts';
+    import { cn } from '#lib/shared/utils/tw-merge.ts';
     import { Check, Minus } from '@lucide/svelte';
     import * as Checkbox from '../index';
 
@@ -18,8 +18,7 @@
             'border-border bg-muted focus-visible:ring-focus data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=indeterminate]:bg-primary data-[state=indeterminate]:border-primary text-primary-foreground',
         secondary:
             'border-border bg-muted focus-visible:ring-focus data-[state=checked]:bg-secondary data-[state=checked]:border-secondary data-[state=indeterminate]:bg-secondary data-[state=indeterminate]:border-secondary text-secondary-foreground',
-        ghost:
-            'border-border bg-transparent focus-visible:ring-focus data-[state=checked]:bg-muted data-[state=checked]:border-muted data-[state=indeterminate]:bg-muted data-[state=indeterminate]:border-muted text-main-foreground',
+        ghost: 'border-border bg-transparent focus-visible:ring-focus data-[state=checked]:bg-muted data-[state=checked]:border-muted data-[state=indeterminate]:bg-muted data-[state=indeterminate]:border-muted text-main-foreground',
     };
 
     const sizes = {

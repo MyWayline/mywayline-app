@@ -16,6 +16,10 @@
     import { cubicOut } from 'svelte/easing';
     import { untrack } from 'svelte';
     import type { MonthWeekRow } from '../types/CalendarLayout.types';
+    import { formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
+    import { calendarDataStore } from '../stores/calendarDataStore.svelte';
+    import { formatEventDate } from '#lib/shared/utils/TimeDateUtils.ts';
+    import { Button } from '#lib';
 
     const AXIS_LOCK_PX = 15;
     const COMMIT_PX = 50;
@@ -184,113 +188,156 @@
         bind:this={area}
         bind:clientWidth={areaWidth}
         bind:clientHeight={areaHeight}
-        class="min-h-0 flex-1 touch-none"
+        class="min-h-0 flex-1 touch-none flex flex-col"
         role="presentation"
     >
-        <CalendarPager
-            scrollY={false}
-            onprev={() => calendarContext.navigateDate(-1)}
-            onnext={() => calendarContext.navigateDate(1)}
+        <div
+            class="shrink-0 min-h-0 overflow-hidden"
+            style:height={`${height.current}px`}
         >
-            {#snippet content(offset)}
-                {@const page = calendarDataAdapter.getMonthLayout(
-                    addMonths(calendarContext.viewingDate, offset)
-                )}
-                <div
-                    class="grid min-h-0 grid-rows-6"
-                    style:height={areaHeight ? `${height.current}px` : '100%'}
-                    style:row-gap="{4}px"
-                >
-                    {#each page.weeks as week (week.weekStart.getTime())}
-                        <div
-                            class="grid min-h-0 grid-cols-7 overflow-hidden"
-                            style:gap="{4}px"
-                            style:grid-template-rows="{headerHeightPx}px repeat(5, {segmentHeightPx}px)
-                            minmax(0, 1fr)"
-                        >
-                            {#each eachDayOfInterval( { start: week.weekStart, end: addDays(week.weekStart, 6) } ) as day, i (i)}
-                                {@const isToday = isSameDay(
-                                    calendarContext.todaysDate,
-                                    day
-                                )}
-                                {@const isSelected = isSameDay(
-                                    calendarContext.selectedDate,
-                                    day
-                                )}
+            <CalendarPager
+                scrollY={false}
+                onprev={() => calendarContext.navigateDate(-1)}
+                onnext={() => calendarContext.navigateDate(1)}
+            >
+                {#snippet content(offset)}
+                    {@const page = calendarDataAdapter.getMonthLayout(
+                        addMonths(calendarContext.viewingDate, offset)
+                    )}
+                    <div
+                        class="grid min-h-0 grid-rows-6"
+                        style:height={areaHeight ? `${height.current}px` : '100%'}
+                        style:row-gap="{4}px"
+                    >
+                        {#each page.weeks as week (week.weekStart.getTime())}
+                            <div
+                                class="grid min-h-0 grid-cols-7 overflow-hidden"
+                                style:gap="{4}px"
+                                style:grid-template-rows="{headerHeightPx}px repeat({maxLanes},
+                                {segmentHeightPx}px) minmax(0, 1fr)"
+                            >
+                                {#each eachDayOfInterval( { start: week.weekStart, end: addDays(week.weekStart, 6) } ) as day, i (i)}
+                                    {@const isToday = isSameDay(
+                                        calendarContext.todaysDate,
+                                        day
+                                    )}
+                                    {@const isSelected = isSameDay(
+                                        calendarContext.selectedDate,
+                                        day
+                                    )}
 
-                                <button
-                                    onclick={() => calendarContext.setSelectedDate(day)}
-                                    style:grid-row="1 / -1"
-                                    style:grid-column={i + 1}
-                                    style:padding-top="{lerp(4, 8)}px"
-                                    type="button"
-                                    class="flex min-h-0 w-full items-start justify-center overflow-hidden rounded-sm bg-bg-secondary text-center"
-                                    class:opacity-50={!isSameMonth(day, page.monthStart)}
-                                >
-                                    <span
-                                        style:font-size="{lerp(11, 14)}px"
-                                        style:width="{lerp(18, 24)}px"
-                                        style:height="{lerp(18, 24)}px"
-                                        class="grid shrink-0 place-items-center rounded-sm leading-none"
-                                        class:bg-primary={isToday}
-                                        class:bg-bg-primary={isSelected}
-                                        class:font-semibold={isToday || isSelected}
-                                    >
-                                        {format(day, 'd')}
-                                    </span>
-                                </button>
-                            {/each}
-                            {#each week.spans.segments.filter((segment) => segment.lane < maxLanes) as segment, i (i)}
-                                <div
-                                    class="mx-0.5 z-10 self-start overflow-hidden rounded-sm"
-                                    style:background-color={segment.item.color}
-                                    style:grid-column="{segment.startDay + 1} / {segment.endDay +
-                                        2}"
-                                    style:grid-row={segment.lane + 2}
-                                    style:height="{segmentHeightPx}px"
-                                >
-                                    <span
-                                        style:line-height="{segmentHeightPx}px"
-                                        style:font-size="{11 * progress}px"
-                                        style:opacity={shrinkOpacity}
-                                        class="block truncate px-1.5 text-left"
-                                    >
-                                        {segment.item.summary}
-                                    </span>
-                                </div>
-                            {/each}
-                            {#each weekdays as item, i}
-                                {@const overflowItems =
-                                    (week.spans.itemsPerDay?.[i] ?? 0) - maxLanes}
-                                {#if overflowItems > 0}
-                                    <span
-                                        class="pointer-events-none z-10 grid place-items-center self-start text-muted-foreground"
+                                    <button
+                                        onclick={() =>
+                                            calendarContext.setSelectedDate(day)}
+                                        style:grid-row="1 / -1"
                                         style:grid-column={i + 1}
-                                        style:grid-row={firstAvailableRow(i, week)}
+                                        style:padding-top="{lerp(4, 8)}px"
+                                        type="button"
+                                        class="flex min-h-0 w-full items-start justify-center overflow-hidden rounded-sm bg-bg-secondary text-center"
+                                        class:opacity-50={!isSameMonth(
+                                            day,
+                                            page.monthStart
+                                        )}
+                                    >
+                                        <span
+                                            style:font-size="{lerp(11, 14)}px"
+                                            style:width="{lerp(18, 24)}px"
+                                            style:height="{lerp(18, 24)}px"
+                                            class="grid shrink-0 place-items-center rounded-sm leading-none"
+                                            class:bg-primary={isToday}
+                                            class:bg-bg-primary={isSelected}
+                                            class:font-semibold={isToday || isSelected}
+                                        >
+                                            {format(day, 'd')}
+                                        </span>
+                                    </button>
+                                {/each}
+                                {#each week.spans.segments.filter((segment) => segment.lane < maxLanes) as segment, i (i)}
+                                    <div
+                                        class="mx-0.5 z-10 self-start overflow-hidden rounded-sm pointer-events-none"
+                                        style:background-color={segment.item.color}
+                                        style:grid-column="{segment.startDay + 1} / {segment.endDay +
+                                            2}"
+                                        style:grid-row={segment.lane + 2}
                                         style:height="{segmentHeightPx}px"
                                     >
                                         <span
-                                            class="rounded-full bg-muted-foreground"
-                                            style:grid-area="1 / 1"
-                                            style:width="{segmentHeightPx * 0.6}px"
-                                            style:height="{segmentHeightPx * 0.6}px"
-                                            style:opacity={1 - shrinkOpacity}
-                                        ></span>
-                                        <span
-                                            style:grid-area="1 / 1"
-                                            style:font-size="{11 * progress}px"
                                             style:line-height="{segmentHeightPx}px"
+                                            style:font-size="{11 * progress}px"
                                             style:opacity={shrinkOpacity}
+                                            class="block truncate px-1.5 text-left"
                                         >
-                                            +{overflowItems}
+                                            {segment.item.summary}
                                         </span>
-                                    </span>
-                                {/if}
-                            {/each}
-                        </div>
-                    {/each}
-                </div>
-            {/snippet}
-        </CalendarPager>
+                                    </div>
+                                {/each}
+                                {#each weekdays as item, i}
+                                    {@const overflowItems =
+                                        (week.spans.itemsPerDay?.[i] ?? 0) - maxLanes}
+                                    {#if overflowItems > 0}
+                                        <span
+                                            class="pointer-events-none z-10 grid place-items-center self-start text-muted-foreground"
+                                            style:grid-column={i + 1}
+                                            style:grid-row={firstAvailableRow(i, week)}
+                                            style:height="{segmentHeightPx}px"
+                                        >
+                                            <span
+                                                class="rounded-full bg-muted-foreground"
+                                                style:grid-area="1 / 1"
+                                                style:width="{segmentHeightPx * 0.6}px"
+                                                style:height="{segmentHeightPx * 0.6}px"
+                                                style:opacity={1 - shrinkOpacity}
+                                            ></span>
+                                            <span
+                                                style:grid-area="1 / 1"
+                                                style:font-size="{11 * progress}px"
+                                                style:line-height="{segmentHeightPx}px"
+                                                style:opacity={shrinkOpacity}
+                                            >
+                                                +{overflowItems}
+                                            </span>
+                                        </span>
+                                    {/if}
+                                {/each}
+                            </div>
+                        {/each}
+                    </div>
+                {/snippet}
+            </CalendarPager>
+        </div>
+        <div class="pt-4 min-h-0 flex-1 flex flex-col gap-2 overflow-hidden">
+            <p class="text-xl font-medium shrink-0">
+                {formatDate(calendarContext.selectedDate, 'dayWeekday')}
+            </p>
+
+            <div class="min-h-0 flex-1 overflow-y-auto flex flex-col gap-2">
+                {#each calendarDataStore
+                    .getItemsForDay(calendarContext.selectedDate)
+                    .filter((i) => i.type === 'event') as item, i (item.uid + i)}
+                    <Button.Base>
+                        {#snippet child({ props })}
+                            <button
+                                {...props}
+                                class="flex text-left flex-col gap-1 rounded-lg p-2 text-sm shrink-0"
+                                style:background-color={item.color}
+                                onclick={() =>
+                                    calendarContext.setSelectedItemId(item.uid)}
+                            >
+                                <p>
+                                    {formatEventDate(
+                                        item.dtstart,
+                                        item.dtend,
+                                        item.isAllDay
+                                    )}
+                                </p>
+                                <p class="font-medium">{item.summary}</p></button
+                            >
+                        {/snippet}
+                    </Button.Base>
+                {:else}
+                    <p>Seems like you are free today!</p>
+                {/each}
+            </div>
+        </div>
     </div>
 </div>

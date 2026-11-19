@@ -21,10 +21,12 @@
         "@tauri-apps/api": "^2",
         "@tauri-apps/plugin-http": "^2.8.3",
         "@tauri-apps/plugin-opener": "^2",
+        "@tauri-apps/plugin-os": "^2.4.0",
         "date-fns": "^4.4.0",
         "embla-carousel": "^8.6.0",
         "embla-carousel-svelte": "^8.6.0",
-        "svelte-bottom-sheet": "file:../../Users/Wallner David/Nextcloud/Projekte/svelte-bottom-sheet/package/svelte-bottom-sheet-3.0.0-alpha.1.tgz",
+        "rrule": "^2.8.1",
+        "svelte-bottom-sheet": "^3.0.0-rc.1",
         "tailwind-merge": "^3.7.0",
         "tauri-plugin-secure-keystore": "^0.0.2",
         "zod": "^4.6.5"

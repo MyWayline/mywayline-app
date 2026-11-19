@@ -8,6 +8,7 @@
         "opener:default",
         "secure-keystore:default",
         "google-auth:default",
+        "os:allow-locale",
         {
             "identifier": "http:default",
             "allow": [
@@ -15,6 +16,7 @@
                     "url": "http://api.mywayline.com/**"
                 }
             ]
-        }
+        },
+        "os:default"
     ]
 }

@@ -1,5 +1,12 @@
-import type { ICalEvent, ICalItem, ICalTask } from '#lib/types/index.ts';
-import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
+import type { ICalEvent, ICalItem, ICalTask } from '#lib/shared/types/Calendar.types.ts';
+import {
+    startOfWeek,
+    endOfWeek,
+    startOfMonth,
+    endOfMonth,
+    startOfDay,
+    endOfDay,
+} from 'date-fns';
 
 const getCurrentWeekStart = () => {
     const now = new Date();
@@ -363,6 +370,15 @@ export const calendarDataStore = {
     get calendarItems() {
         return calendarItems;
     },
+    getItemById(id: string) {
+        return calendarItems.filter((item) => item.uid === id)[0];
+    },
+    getItemsForDay(date: Date) {
+        const rangeStart = startOfDay(date);
+        const rangeEnd = endOfDay(date);
+        console.log(rangeStart);
+        return calendarItems.filter((item) => overlapsRange(item, rangeStart, rangeEnd));
+    },
     getItemsForWeekOf(date: Date) {
         const rangeStart = startOfWeek(date, { weekStartsOn: 1 });
         const rangeEnd = endOfWeek(date, { weekStartsOn: 1 });
@@ -375,20 +391,18 @@ export const calendarDataStore = {
     },
 };
 
-const overlapsRange = (item: ICalItem, rangeStart: Date, rangeEnd: Date) => {
-    return calendarItems.filter((item) => {
-        if (item.type === 'event') {
-            const eventEnd = item.dtend as Date;
+const overlapsRange = (item: ICalItem, rangeStart: Date, rangeEnd: Date): boolean => {
+    if (item.type === 'event') {
+        const eventEnd = item.dtend as Date;
 
-            return item.dtstart < rangeEnd && eventEnd > rangeStart;
-        }
+        return item.dtstart < rangeEnd && eventEnd > rangeStart;
+    }
 
-        if (item.type === 'task') {
-            if (!item.due) return false;
+    if (item.type === 'task') {
+        if (!item.due) return false;
 
-            return item.due >= rangeStart && item.due < rangeEnd;
-        }
+        return item.due >= rangeStart && item.due < rangeEnd;
+    }
 
-        return false;
-    });
+    return false;
 };

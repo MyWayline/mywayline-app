@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { ChangePasswordData, ChangePasswordResponses, CreateEventData, CreateEventResponses, DeleteEventData, DeleteEventResponses, DeleteUserData, DeleteUserResponses, GetAllEventsData, GetAllEventsResponses, GetEventData, GetEventResponses, GetLogStatusData, GetLogStatusResponses, GetUserDetailsData, GetUserDetailsResponses, LoginUserData, LoginUserResponses, LogInWithGoogleData, LogInWithGoogleResponses, LogoutUserData, LogoutUserResponses, RefreshTokenData, RefreshTokenResponses, RegisterUserData, RegisterUserResponses, UpdateEventData, UpdateEventResponses, UpdateLogStatusData, UpdateLogStatusResponses } from './types.gen';
+import type { AddExDateData, AddExDateResponses, ChangePasswordData, ChangePasswordResponses, CreateEventData, CreateEventResponses, CreateWaylineCalendarData, CreateWaylineCalendarResponses, DeleteEventData, DeleteEventResponses, DeleteUserData, DeleteUserResponses, GetAllEventsData, GetAllEventsResponses, GetEventData, GetEventResponses, GetLogStatusData, GetLogStatusResponses, GetSyncedCalendarsData, GetSyncedCalendarsResponses, GetUserDetailsData, GetUserDetailsResponses, LinkAccountData, LinkAccountResponses, LoginUserData, LoginUserResponses, LogInWithGoogleData, LogInWithGoogleResponses, LogoutUserData, LogoutUserResponses, RefreshTokenData, RefreshTokenResponses, RegisterUserData, RegisterUserResponses, RemoveExDateData, RemoveExDateResponses, TriggerSyncData, TriggerSyncResponses, UnlinkAccountData, UnlinkAccountResponses, UpdateDirectionData, UpdateDirectionResponses, UpdateEventData, UpdateEventResponses, UpdateLogStatusData, UpdateLogStatusResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -27,18 +27,22 @@ export const updateLogStatus = <ThrowOnError extends boolean = false>(options: O
     }
 });
 
-export const deleteEvent = <ThrowOnError extends boolean = false>(options: Options<DeleteEventData, ThrowOnError>) => (options.client ?? client).delete<DeleteEventResponses, unknown, ThrowOnError>({ url: '/event/{eventId}', ...options });
+export const deleteEvent = <ThrowOnError extends boolean = false>(options: Options<DeleteEventData, ThrowOnError>) => (options.client ?? client).delete<DeleteEventResponses, unknown, ThrowOnError>({ url: '/calendar/{eventId}', ...options });
 
-export const getEvent = <ThrowOnError extends boolean = false>(options: Options<GetEventData, ThrowOnError>) => (options.client ?? client).get<GetEventResponses, unknown, ThrowOnError>({ url: '/event/{eventId}', ...options });
+export const getEvent = <ThrowOnError extends boolean = false>(options: Options<GetEventData, ThrowOnError>) => (options.client ?? client).get<GetEventResponses, unknown, ThrowOnError>({ url: '/calendar/{eventId}', ...options });
 
 export const updateEvent = <ThrowOnError extends boolean = false>(options: Options<UpdateEventData, ThrowOnError>) => (options.client ?? client).put<UpdateEventResponses, unknown, ThrowOnError>({
-    url: '/event/{eventId}',
+    url: '/calendar/{eventId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
         ...options.headers
     }
 });
+
+export const addExDate = <ThrowOnError extends boolean = false>(options: Options<AddExDateData, ThrowOnError>) => (options.client ?? client).put<AddExDateResponses, unknown, ThrowOnError>({ url: '/calendar/{eventId}/exdate', ...options });
+
+export const removeExDate = <ThrowOnError extends boolean = false>(options: Options<RemoveExDateData, ThrowOnError>) => (options.client ?? client).put<RemoveExDateResponses, unknown, ThrowOnError>({ url: '/calendar/{eventId}/exdate/remove', ...options });
 
 export const changePassword = <ThrowOnError extends boolean = false>(options: Options<ChangePasswordData, ThrowOnError>) => (options.client ?? client).put<ChangePasswordResponses, unknown, ThrowOnError>({
     url: '/auth/change-password',
@@ -49,8 +53,30 @@ export const changePassword = <ThrowOnError extends boolean = false>(options: Op
     }
 });
 
+export const createWaylineCalendar = <ThrowOnError extends boolean = false>(options: Options<CreateWaylineCalendarData, ThrowOnError>) => (options.client ?? client).post<CreateWaylineCalendarResponses, unknown, ThrowOnError>({ url: '/calendar/{provider}/wayline-calendar', ...options });
+
+export const linkAccount = <ThrowOnError extends boolean = false>(options: Options<LinkAccountData, ThrowOnError>) => (options.client ?? client).post<LinkAccountResponses, unknown, ThrowOnError>({
+    url: '/calendar/{provider}/link',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const updateDirection = <ThrowOnError extends boolean = false>(options: Options<UpdateDirectionData, ThrowOnError>) => (options.client ?? client).post<UpdateDirectionResponses, unknown, ThrowOnError>({
+    url: '/calendar/synced/{syncedCalendarId}/direction',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const triggerSync = <ThrowOnError extends boolean = false>(options?: Options<TriggerSyncData, ThrowOnError>) => (options?.client ?? client).post<TriggerSyncResponses, unknown, ThrowOnError>({ url: '/calendar/sync', ...options });
+
 export const createEvent = <ThrowOnError extends boolean = false>(options: Options<CreateEventData, ThrowOnError>) => (options.client ?? client).post<CreateEventResponses, unknown, ThrowOnError>({
-    url: '/event/create',
+    url: '/calendar/create',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -93,6 +119,10 @@ export const getUserDetails = <ThrowOnError extends boolean = false>(options?: O
 
 export const getLogStatus = <ThrowOnError extends boolean = false>(options?: Options<GetLogStatusData, ThrowOnError>) => (options?.client ?? client).get<GetLogStatusResponses, unknown, ThrowOnError>({ url: '/log/status', ...options });
 
-export const getAllEvents = <ThrowOnError extends boolean = false>(options?: Options<GetAllEventsData, ThrowOnError>) => (options?.client ?? client).get<GetAllEventsResponses, unknown, ThrowOnError>({ url: '/event/all', ...options });
+export const getSyncedCalendars = <ThrowOnError extends boolean = false>(options?: Options<GetSyncedCalendarsData, ThrowOnError>) => (options?.client ?? client).get<GetSyncedCalendarsResponses, unknown, ThrowOnError>({ url: '/calendar/synced', ...options });
+
+export const getAllEvents = <ThrowOnError extends boolean = false>(options?: Options<GetAllEventsData, ThrowOnError>) => (options?.client ?? client).get<GetAllEventsResponses, unknown, ThrowOnError>({ url: '/calendar/all', ...options });
+
+export const unlinkAccount = <ThrowOnError extends boolean = false>(options: Options<UnlinkAccountData, ThrowOnError>) => (options.client ?? client).delete<UnlinkAccountResponses, unknown, ThrowOnError>({ url: '/calendar/{provider}/unlink', ...options });
 
 export const deleteUser = <ThrowOnError extends boolean = false>(options: Options<DeleteUserData, ThrowOnError>) => (options.client ?? client).delete<DeleteUserResponses, unknown, ThrowOnError>({ url: '/auth/delete', ...options });

@@ -11,7 +11,7 @@ export type ButtonProps = {
 } & HTMLButtonAttributes;
 
 export interface StyledButtonProps extends Omit<ButtonProps, 'child'> {
-    variant?: 'ghost' | 'primary' | 'secondary';
+    variant?: 'ghost' | 'primary' | 'secondary' | 'muted' | 'outline';
     size?: 'sm' | 'md' | 'lg';
     iconOnly?: boolean;
     isLoading?: boolean;

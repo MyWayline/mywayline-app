@@ -37,6 +37,13 @@
         watchResize: false,
         startIndex: 2,
         duration: 20,
+        watchDrag: (emblaCtx, event) => {
+            const target = event.target as HTMLElement;
+            if (target.closest('[data-carousel-nodrag]')) {
+                return false;
+            }
+            return true;
+        },
     };
 
     const headerOptions: EmblaOptionsType = { ...options, watchDrag: false };

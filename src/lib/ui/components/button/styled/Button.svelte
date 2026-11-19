@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as Button from '../index';
-    import { cn } from '#lib/utils/tw-merge.ts';
+    import { cn } from '#lib/shared/utils/tw-merge.ts';
 
     let {
         variant = 'primary',
@@ -15,10 +15,13 @@
 
     const variants = {
         primary:
-            'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary shadow-sm',
+            'bg-primary text-primary-foreground hover:bg-primary-hover focus-visible:ring-primary shadow-sm',
         secondary:
-            'bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-visible:ring-secondary',
-        ghost: 'bg-transparent text-muted-foreground hover:bg-muted active:bg-muted/70 focus-visible:ring-focus',
+            'bg-secondary text-secondary-foreground hover:bg-secondary-hover focus-visible:ring-secondary',
+        ghost: 'bg-transparent text-muted-foreground hover:bg-muted active:bg-muted-hover focus-visible:ring-focus',
+        muted: 'bg-muted text-muted-foreground hover:bg-muted-hover focus-visible:ring-focus',
+        outline:
+            'bg-none text-main-foreground hover:bg-muted-hover focus-visible:ring-focus border-muted border-1',
     };
 
     const sizes = {

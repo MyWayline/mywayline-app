@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatHour, type HourFormat } from '#lib/utils/TimeDateUtils.ts';
+    import { formatHour, type HourFormat } from '#lib/shared/utils/TimeDateUtils.ts';
     import { getCalendarContext } from '../calendarContext.svelte';
 
     const hours = Array.from({ length: 25 }, (_, i) => i);

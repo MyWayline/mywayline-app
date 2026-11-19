@@ -16,9 +16,9 @@ import type {
     CalendarMonth,
     CalendarWeek,
     WeekStart,
-} from '#lib/types/Calendar.ts';
+} from '#lib/shared/types/Calendar.types.ts';
 
-type DateOptions = Pick<CalendarGridOptions, 'weekStartsOn' | 'locale'>;
+type DateOptions = Partial<Pick<CalendarGridOptions, 'weekStartsOn' | 'locale'>>;
 
 const DEFAULTS = { weekStartsOn: 1 as WeekStart, locale: de };
 

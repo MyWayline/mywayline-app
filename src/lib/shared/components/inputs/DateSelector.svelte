@@ -5,7 +5,7 @@
         getMonthsOfYear,
         getWeekDays,
         getYearBlockForDate,
-    } from '#lib/utils/CalendarGridUtils.ts';
+    } from '#lib/shared/utils/CalendarGridUtils.ts';
     import { Button } from '#lib';
     import {
         addMonths,
@@ -19,7 +19,7 @@
     } from 'date-fns';
     import { ChevronLeft, ChevronRight } from '@lucide/svelte';
     import type { EmblaCarouselType } from 'embla-carousel';
-    import { formatDate } from '#lib/utils/DateFormatUtils.ts';
+    import { formatDate } from '#lib/shared/utils/DateFormatUtils.ts';
 
     type DateSelectorMode = 'DAY' | 'MONTH' | 'YEAR';
     type SelectionMode = 'SINGLE' | 'RANGE';

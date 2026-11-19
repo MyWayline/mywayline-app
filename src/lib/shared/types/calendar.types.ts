@@ -1,3 +1,5 @@
+import type { Locale } from 'date-fns';
+
 export type ICalEvent = {
     type: 'event';
     uid: string;
@@ -28,3 +30,34 @@ export type ICalTask = {
 };
 
 export type ICalItem = ICalEvent | ICalTask;
+
+export type WeekStart = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+export type CalendarGridOptions = {
+    weekStartsOn?: WeekStart;
+    locale?: Locale;
+    today?: Date;
+    fixedRows?: boolean;
+};
+
+export type CalendarDay = {
+    date: Date;
+    day: number;
+    inMonth: boolean;
+    isToday: boolean;
+    isSelected: boolean;
+};
+
+export type CalendarWeek = {
+    weekNumber: number;
+    isSelected: boolean;
+    days: CalendarDay[];
+};
+
+export type CalendarMonth = {
+    index: number;
+    date: Date;
+    label: string;
+    isCurrent: boolean;
+    isSelected: boolean;
+};

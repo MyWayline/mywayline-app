@@ -20,10 +20,12 @@
 
     /* Primary */
     --color-primary: #91a442;
+    --color-primary-hover: #7f9038;
     --color-primary-foreground: #ffffff;
 
     /* Secondary */
     --color-secondary: #d6a84f;
+    --color-secondary-hover: #c49640;
     --color-secondary-foreground: #26351f;
 
     /* Accent */
@@ -32,6 +34,7 @@
 
     /* Muted */
     --color-muted: #f0f1eb;
+    --color-muted-hover: #e2e4dc;
     --color-muted-foreground: #78816e;
 
     /* Semantic */
@@ -63,14 +66,17 @@
 
     /* Primary */
     --color-primary: #a8ba60;
+    --color-primary-hover: #b8cc6d;
     --color-primary-foreground: #202820;
 
     /* Secondary */
     --color-secondary: #e0b75f;
+    --color-secondary-hover: #ecc36c;
     --color-secondary-foreground: #302819;
 
     /* Accent */
     --color-accent: #65ad87;
+    --color-muted-hover: #3c483c;
     --color-accent-foreground: #172c21;
 
     /* Muted */
@@ -98,7 +104,6 @@ html,
 body {
     background: var(--app-bg);
     color: var(--color-main-foreground);
-    transition: background-color 200ms;
     font-family: 'Geist', sans-serif;
 }
 

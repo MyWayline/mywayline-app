@@ -2,13 +2,16 @@ import {
     isApiErrorPayload,
     type ApiErrorPayload,
     type ApiResult,
-} from '#lib/types/HeyApi.types.ts';
+} from '#lib/shared/types/HeyApi.types.ts';
 import {
     loginUser,
     logoutUser,
     registerUser,
     refreshToken,
     getUserDetails,
+    createEvent,
+    getEvent,
+    logInWithGoogle,
 } from './generated/sdk.gen';
 
 const apiCall = async <T>(
@@ -71,8 +74,13 @@ export const api = {
         logout: withErrorHandling(logoutUser),
         register: withErrorHandling(registerUser),
         refreshToken: withErrorHandling(refreshToken),
+        loginGoogle: withErrorHandling(logInWithGoogle),
     },
     user: {
         getDetails: withErrorHandling(getUserDetails),
+    },
+    event: {
+        getEvent: withErrorHandling(getEvent),
+        createEvent: withErrorHandling(createEvent),
     },
 };

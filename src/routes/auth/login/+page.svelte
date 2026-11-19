@@ -10,9 +10,11 @@
         registerSchema,
         type LoginInput,
         type RegisterInput,
-    } from '#lib/schemas/auth.js';
+    } from '#lib/shared/schemas/auth.js';
     import { api } from '#lib/api/api.ts';
-    import { userStore } from '#lib/stores/userStore.svelte.ts';
+    import { userStore } from '#lib/shared/stores/userStore.svelte.ts';
+    import { googleAuthService } from '#lib/shared/services/google-auth.service.ts';
+    import GoogleIcon from '#lib/shared/icons/GoogleIcon.svelte';
 
     let { data }: { data: PageData } = $props();
 
@@ -21,6 +23,7 @@
 
     let loginSubmitError = $state<string | null>(null);
     let registerSubmitError = $state<string | null>(null);
+    let googleSubmitError = $state<string | null>(null);
 
     let loginValues = $state<LoginInput>({ email: '', password: '' });
     let loginTouched = $state<Partial<Record<keyof LoginInput, boolean>>>({});
@@ -133,6 +136,17 @@
 
         isSubmitting = false;
     };
+
+    const handleGoogleSubmit = async () => {
+        const res = await googleAuthService.signInWithGoogleAccount();
+
+        if (res?.success) {
+            goto('/app/home', { replace: true });
+        } else {
+            googleSubmitError =
+                res?.error || "Couldn't log you in using google. Try again.";
+        }
+    };
 </script>
 
 <div class="bg-bg-secondary h-full flex flex-col overflow-hidden" data-safe-area="bleed">
@@ -168,6 +182,14 @@
                 </Tabs.List>
             </div>
             <div class="min-h-0 overflow-y-auto p-2">
+                {#if registerSubmitError}
+                    <div
+                        class="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm animate-fadeIn"
+                    >
+                        <CircleAlert size={18} class="shrink-0" />
+                        <span>{registerSubmitError}</span>
+                    </div>
+                {/if}
                 <!-- LOGIN TAB -->
                 <Tabs.Content value="login">
                     <form class="flex flex-col gap-6" onsubmit={handleLoginSubmit}>
@@ -298,6 +320,27 @@
                         </Button.Root>
                     </form>
                 </Tabs.Content>
+                <div class="mt-8 flex flex-col gap-4 pb-4">
+                    <div class="flex items-center gap-4">
+                        <div class="h-px flex-1 bg-border"></div>
+                        <span
+                            class="text-xs font-medium tracking-widest text-muted-foreground"
+                        >
+                            OR CONTINUE WITH
+                        </span>
+                        <div class="h-px flex-1 bg-border"></div>
+                    </div>
+
+                    <Button.Root
+                        type="button"
+                        variant="outline"
+                        onclick={handleGoogleSubmit}
+                        style="height: 50px"
+                    >
+                        <GoogleIcon size={20} />
+                        <span class="text-sm font-semibold">Continue with Google </span>
+                    </Button.Root>
+                </div>
             </div>
         </Tabs.Root>
     </div>

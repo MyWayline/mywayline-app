@@ -1,4 +1,4 @@
-import { userStore } from '#lib/stores/userStore.svelte.ts';
+import { userStore } from '#lib/shared/stores/userStore.svelte.ts';
 import { redirect } from '@sveltejs/kit';
 import type { ClientInit } from '@sveltejs/kit/hooks';
 import '#lib/config/hey-api-config.js';

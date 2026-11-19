@@ -2,13 +2,13 @@
     import { Button, ToggleGroup } from '#lib';
     import { getDate } from 'date-fns';
     import { ChevronDown, Funnel, Menu } from '@lucide/svelte';
-    import { formatMonthYearIfNotCurrentYear } from '#lib/utils/TimeDateUtils.ts';
+    import { formatMonthYearIfNotCurrentYear } from '#lib/shared/utils/TimeDateUtils.ts';
     import { getCalendarContext } from '../calendarContext.svelte';
-    import NormalBottomSheet from '#lib/components/BottomSheet/NormalBottomSheet.svelte';
-    import { userSettingsStore } from '#lib/stores/userSettingStore.svelte.ts';
-    import { UserCalendarMode } from '#lib/types/UserSettings.types.ts';
-    import DateSelector from '#lib/components/inputs/DateSelector.svelte';
-    import LeftFloatingSheet from '#lib/components/BottomSheet/LeftFloatingSheet.svelte';
+    import NormalBottomSheet from '#lib/shared/components/BottomSheet/NormalBottomSheet.svelte';
+    import { userSettingsStore } from '#lib/shared/stores/userSettingStore.svelte.ts';
+    import { UserCalendarMode } from '#lib/shared/types/UserSettings.types.ts';
+    import DateSelector from '#lib/shared/components/inputs/DateSelector.svelte';
+    import LeftFloatingSheet from '#lib/shared/components/BottomSheet/LeftFloatingSheet.svelte';
 
     let calendarContext = getCalendarContext();
 
@@ -64,12 +64,14 @@
 </div>
 
 <NormalBottomSheet bind:isOpen={isSelectSheetOpen} maxHeight={500}>
-    <DateSelector
-        mode="SINGLE"
-        viewMode="DAY"
-        onselect={ondateselect}
-        startDate={calendarContext.viewingDate}
-    />
+    <div class="flex justify-center">
+        <DateSelector
+            mode="SINGLE"
+            viewMode="DAY"
+            onselect={ondateselect}
+            startDate={calendarContext.viewingDate}
+        />
+    </div>
 </NormalBottomSheet>
 
 <LeftFloatingSheet bind:isOpen={isSideSheetOpen} maxHeight={200}>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cn } from '#lib/utils/tw-merge.ts';
+    import { cn } from '#lib/shared/utils/tw-merge.ts';
     import * as TabsBase from '../../index';
 
     let {

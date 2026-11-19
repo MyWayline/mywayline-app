@@ -1,4 +1,4 @@
-import type { ICalItem } from '#lib';
+import type { ICalItem } from '#lib/shared/types/Calendar.types.ts';
 
 export interface LayoutConfig {
     hourHeightPx?: number;
@@ -66,3 +66,5 @@ export interface MonthLayout {
     monthStart: Date;
     weeks: MonthWeekRow[];
 }
+
+export type ColumnRangeSelection = { dayKey: number; start: number; end: number };

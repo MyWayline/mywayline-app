@@ -3,7 +3,7 @@
     import { Toggle } from '#lib';
     import * as Input from '..';
     import PasswordValidator from './PasswordValidator.svelte';
-    import { cn } from '#lib/utils/tw-merge.ts';
+    import { cn } from '#lib/shared/utils/tw-merge.ts';
     let {
         type = 'text',
         variant = 'primary',
@@ -39,7 +39,8 @@
 
     const appearanceClasses = {
         plain: 'h-auto min-h-0 border-0 bg-transparent px-0',
-        underline: 'h-auto min-h-0 border-0 border-b-2 border-primary bg-transparent px-0 rounded-none',
+        underline:
+            'h-auto min-h-0 border-0 border-b-2 border-primary bg-transparent px-0 rounded-none',
     };
 </script>
 

@@ -7,18 +7,20 @@
         isSameDay,
         startOfDay,
         startOfWeek,
+        set,
     } from 'date-fns';
     import { de } from 'date-fns/locale';
     import { getCalendarContext } from '../calendarContext.svelte';
     import CalendarColumnSidebar from './CalendarColumnSidebar.svelte';
     import CalendarPager from './CalendarPager.svelte';
     import CalendarColumn from './CalendarColumn.svelte';
-    import { userSettingsStore } from '#lib/stores/userSettingStore.svelte.ts';
-    import { UserCalendarMode } from '#lib/types/UserSettings.types.ts';
+    import { userSettingsStore } from '#lib/shared/stores/userSettingStore.svelte.ts';
+    import { UserCalendarMode } from '#lib/shared/types/UserSettings.types.ts';
     import type { SpanLayout, TimelineDay } from '../types/CalendarLayout.types';
     import { calendarDataAdapter } from '../services/calendarDataAdapter';
     import { Button } from '#lib';
     import { calendarCalculationUtil } from '../utils/calendarCalculationUtils';
+    import CalendarTimeSelection from './CalendarTimeSelection.svelte';
 
     type Page = { days: TimelineDay[]; allDay: SpanLayout; focus: number | null };
 
@@ -185,7 +187,7 @@
                     {#each allDay.segments as segment (`${segment.item.uid}:${segment.startDay}:${segment.lane}`)}
                         {@const hidden = !expandAllDayItems && segment.lane > 0}
                         <div
-                            class="relative z-10 min-w-0 flex overflow-hidden rounded-sm transition-opacity duration-200 data-[hidden=true]:pointer-events-none data-[hidden=true]:opacity-0"
+                            class="relative z-10 min-w-0 pt-0.5 flex overflow-hidden rounded-sm transition-opacity duration-200 data-[hidden=true]:pointer-events-none data-[hidden=true]:opacity-0"
                             data-hidden={hidden}
                             aria-hidden={hidden}
                             style:background-color={segment.item.color}
@@ -219,21 +221,40 @@
         {#snippet content(offset)}
             {@const timestamp = pageTimestamp(offset)}
             {@const currentPage = buildPage(timestamp)}
+            {@const dayKeys = currentPage.days.map((d) => startOfDay(d.date).getTime())}
+            {@const selectedIndex = calendarContext.columnRangeSelection
+                ? dayKeys.indexOf(calendarContext.columnRangeSelection.dayKey)
+                : -1}
 
-            <div
-                class="grid {colAnim}"
-                style:grid-template-columns={columns(currentPage)}
-            >
-                {#each currentPage.days as day (day.date.getTime())}
-                    <div class="min-w-0 overflow-x-clip">
-                        <div class="h-full border-l border-muted">
-                            <CalendarColumn
-                                ondoubleclick={() => onHeaderClick(day.date)}
-                                items={day.items}
-                            />
+            <div class="relative">
+                <div
+                    class="grid {colAnim}"
+                    style:grid-template-columns={columns(currentPage)}
+                >
+                    {#each currentPage.days as day (day.date.getTime())}
+                        <div
+                            class="min-w-0 overflow-x-clip"
+                            data-column-date={startOfDay(day.date).getTime()}
+                        >
+                            <div class="h-full border-l border-muted">
+                                <CalendarColumn
+                                    ondoubleclick={() => onHeaderClick(day.date)}
+                                    items={day.items}
+                                    date={day.date}
+                                />
+                            </div>
                         </div>
-                    </div>
-                {/each}
+                    {/each}
+                </div>
+
+                {#if calendarContext.columnRangeSelection && selectedIndex >= 0}
+                    <CalendarTimeSelection
+                        {dayKeys}
+                        index={selectedIndex}
+                        gridColumns={columns(currentPage)}
+                        onclear={() => calendarContext.setColumnRangeSelection(null)}
+                    />
+                {/if}
             </div>
         {/snippet}
         {#snippet sidebar()}

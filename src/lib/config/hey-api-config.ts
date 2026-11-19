@@ -1,6 +1,6 @@
 import { api } from '#lib/api/api.ts';
 import { client } from '#lib/api/generated/client.gen.js';
-import { userStore } from '#lib/stores/userStore.svelte.ts';
+import { userStore } from '#lib/shared/stores/userStore.svelte.ts';
 import { fetch as tauriFetch } from '@tauri-apps/plugin-http';
 
 client.setConfig({

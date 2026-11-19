@@ -1,4 +1,4 @@
-import { UserCalendarMode } from '#lib/types/UserSettings.types.ts';
+import { UserCalendarMode } from '#lib/shared/types/UserSettings.types.ts';
 
 let calendarMode = $state<UserCalendarMode>(UserCalendarMode.WEEK);
 

@@ -27,13 +27,20 @@ export type EventRequest = {
     endTime: string;
     isAllDay?: boolean;
     recurrenceRule?: Recurrence;
+    color?: string;
+    exDates?: Array<string>;
     validTimeRange?: boolean;
+    validRecurrenceRule?: boolean;
 };
 
 export type Recurrence = {
-    interval: number;
-    frequency: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
-    amount?: number;
+    freq: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+    count?: number;
+    interval?: number;
+    until?: string;
+    byDay?: Array<'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY'>;
+    bySetPos?: Array<number>;
+    validBySetPos?: boolean;
 };
 
 export type EventResponse = {
@@ -44,11 +51,30 @@ export type EventResponse = {
     endTime?: string;
     isAllDay?: boolean;
     recurrenceRule?: Recurrence;
+    color?: string;
+    exDates?: Array<string>;
 };
 
 export type ChangePasswordRequest = {
     currentPassword?: string;
     newPassword: string;
+};
+
+export type SyncedCalendarResponse = {
+    id?: string;
+    provider?: 'GOOGLE';
+    name?: string;
+    syncDirection?: 'DISABLED' | 'APP_TO_PROVIDER' | 'PROVIDER_TO_APP' | 'BIDIRECTIONAL';
+    lastSyncTime?: string;
+};
+
+export type CreateCalendarSyncRequest = {
+    code: string;
+    redirectUri?: string;
+};
+
+export type UpdateCalendarSyncDirectionRequest = {
+    syncDirection: 'DISABLED' | 'APP_TO_PROVIDER' | 'PROVIDER_TO_APP' | 'BIDIRECTIONAL';
 };
 
 export type UserRegisterRequest = {
@@ -102,7 +128,7 @@ export type DeleteEventData = {
         eventId: string;
     };
     query?: never;
-    url: '/event/{eventId}';
+    url: '/calendar/{eventId}';
 };
 
 export type DeleteEventResponses = {
@@ -120,7 +146,7 @@ export type GetEventData = {
         eventId: string;
     };
     query?: never;
-    url: '/event/{eventId}';
+    url: '/calendar/{eventId}';
 };
 
 export type GetEventResponses = {
@@ -138,7 +164,7 @@ export type UpdateEventData = {
         eventId: string;
     };
     query?: never;
-    url: '/event/{eventId}';
+    url: '/calendar/{eventId}';
 };
 
 export type UpdateEventResponses = {
@@ -149,6 +175,46 @@ export type UpdateEventResponses = {
 };
 
 export type UpdateEventResponse = UpdateEventResponses[keyof UpdateEventResponses];
+
+export type AddExDateData = {
+    body?: never;
+    path: {
+        eventId: string;
+    };
+    query: {
+        exDate: string;
+    };
+    url: '/calendar/{eventId}/exdate';
+};
+
+export type AddExDateResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type AddExDateResponse = AddExDateResponses[keyof AddExDateResponses];
+
+export type RemoveExDateData = {
+    body?: never;
+    path: {
+        eventId: string;
+    };
+    query: {
+        exDate: string;
+    };
+    url: '/calendar/{eventId}/exdate/remove';
+};
+
+export type RemoveExDateResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type RemoveExDateResponse = RemoveExDateResponses[keyof RemoveExDateResponses];
 
 export type ChangePasswordData = {
     body: ChangePasswordRequest;
@@ -167,11 +233,81 @@ export type ChangePasswordResponses = {
     200: unknown;
 };
 
+export type CreateWaylineCalendarData = {
+    body?: never;
+    path: {
+        provider: 'GOOGLE';
+    };
+    query?: never;
+    url: '/calendar/{provider}/wayline-calendar';
+};
+
+export type CreateWaylineCalendarResponses = {
+    /**
+     * OK
+     */
+    200: SyncedCalendarResponse;
+};
+
+export type CreateWaylineCalendarResponse = CreateWaylineCalendarResponses[keyof CreateWaylineCalendarResponses];
+
+export type LinkAccountData = {
+    body: CreateCalendarSyncRequest;
+    path: {
+        provider: 'GOOGLE';
+    };
+    query?: never;
+    url: '/calendar/{provider}/link';
+};
+
+export type LinkAccountResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type LinkAccountResponse = LinkAccountResponses[keyof LinkAccountResponses];
+
+export type UpdateDirectionData = {
+    body: UpdateCalendarSyncDirectionRequest;
+    path: {
+        syncedCalendarId: string;
+    };
+    query?: never;
+    url: '/calendar/synced/{syncedCalendarId}/direction';
+};
+
+export type UpdateDirectionResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type UpdateDirectionResponse = UpdateDirectionResponses[keyof UpdateDirectionResponses];
+
+export type TriggerSyncData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/calendar/sync';
+};
+
+export type TriggerSyncResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type TriggerSyncResponse = TriggerSyncResponses[keyof TriggerSyncResponses];
+
 export type CreateEventData = {
     body: EventRequest;
     path?: never;
     query?: never;
-    url: '/event/create';
+    url: '/calendar/create';
 };
 
 export type CreateEventResponses = {
@@ -301,6 +437,22 @@ export type GetLogStatusResponses = {
 
 export type GetLogStatusResponse = GetLogStatusResponses[keyof GetLogStatusResponses];
 
+export type GetSyncedCalendarsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/calendar/synced';
+};
+
+export type GetSyncedCalendarsResponses = {
+    /**
+     * OK
+     */
+    200: Array<SyncedCalendarResponse>;
+};
+
+export type GetSyncedCalendarsResponse = GetSyncedCalendarsResponses[keyof GetSyncedCalendarsResponses];
+
 export type GetAllEventsData = {
     body?: never;
     path?: never;
@@ -309,7 +461,7 @@ export type GetAllEventsData = {
         endTime?: string;
         title?: string;
     };
-    url: '/event/all';
+    url: '/calendar/all';
 };
 
 export type GetAllEventsResponses = {
@@ -320,6 +472,24 @@ export type GetAllEventsResponses = {
 };
 
 export type GetAllEventsResponse = GetAllEventsResponses[keyof GetAllEventsResponses];
+
+export type UnlinkAccountData = {
+    body?: never;
+    path: {
+        provider: 'GOOGLE';
+    };
+    query?: never;
+    url: '/calendar/{provider}/unlink';
+};
+
+export type UnlinkAccountResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type UnlinkAccountResponse = UnlinkAccountResponses[keyof UnlinkAccountResponses];
 
 export type DeleteUserData = {
     body?: never;

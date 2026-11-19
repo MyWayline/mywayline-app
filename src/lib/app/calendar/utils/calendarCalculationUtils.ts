@@ -1,4 +1,4 @@
-import type { ICalItem } from '#lib/types/Calendar.types.ts';
+import type { ICalItem } from '#lib/shared/types/Calendar.types.ts';
 import type {
     LayoutConfig,
     MonthLayout,
