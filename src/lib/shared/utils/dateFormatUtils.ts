@@ -28,19 +28,11 @@ export const formatDate = (
     return format(dateInput, dateFormat, locale ? { locale } : undefined);
 };
 
-export const formatHour = (hour: number, formatType: HourFormat = '24h'): string => {
+export const formatHour = (hour: number): string => {
     const date = new Date();
     date.setHours(hour, 0, 0, 0);
 
-    if (formatType === '12h') {
-        const localeCode = userSettingsStore.dateLocale?.code;
-        return new Intl.DateTimeFormat(localeCode || undefined, {
-            hour: 'numeric',
-            hour12: true,
-        }).format(date);
-    }
-
-    return hour.toString().padStart(2, '0') + ':00';
+    return formatDate(date, DateFormat.TIME);
 };
 
 export const formatMonthYearIfNotCurrentYear = (date: Date) => {

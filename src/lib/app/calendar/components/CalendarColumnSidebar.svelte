@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatHour, type HourFormat } from '#lib/shared/utils/DateFormatUtils.ts';
+    import { formatHour } from '#lib/shared/utils/DateFormatUtils.ts';
     import { getCalendarContext } from '../calendarContext.svelte';
 
     const hours = Array.from({ length: 25 }, (_, i) => i);
@@ -17,7 +17,7 @@
         >
             {#if i > 0}
                 <span class="-translate-y-1/2 text-xs text-muted-foreground"
-                    >{formatHour(hour, '24h')}</span
+                    >{formatHour(hour)}</span
                 >
             {/if}
         </div>
