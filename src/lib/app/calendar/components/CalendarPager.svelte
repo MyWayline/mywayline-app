@@ -173,10 +173,13 @@
         if (extending || isShifting) return;
 
         // Keep date in tact with the current slide on the screen, also when not settled
-        const idx = api.internalEngine().index.get();
-        const lastIndex = slides.length - 1;
-        if (idx >= lastIndex - 1) pendingExtend = 'end';
-        else if (idx <= 1) pendingExtend = 'start';
+        commit(nearestSlide(api));
+
+        const inView = api.slidesInView();
+        const lastSlide = api.slideNodes().length - 1;
+
+        if (inView.includes(lastSlide)) pendingExtend = 'end';
+        else if (inView.includes(0)) pendingExtend = 'start';
 
         if (pendingExtend) void flushExtend();
     };

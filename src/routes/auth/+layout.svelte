@@ -1,7 +1,7 @@
 <script lang="ts">
     import { beforeNavigate, onNavigate } from '$app/navigation';
     import type { Snippet } from 'svelte';
-    import '#lib/transitions/view/slideTransition.css';
+    import '#lib/shared/transitions/view/slideTransition.css';
 
     let { children }: { children: Snippet<[]> } = $props();
 
